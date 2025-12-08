@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import StoreProvider from '@/app/StoreProvider';
-import { BrowserRouter } from 'react-router-dom';
 import { Raleway } from 'next/font/google';
 
 export const metadata: Metadata = {
@@ -21,11 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={raleway.className}>
     <body>
-    <BrowserRouter>
-      <StoreProvider>
-        {children}
-      </StoreProvider>
-    </BrowserRouter>
+    <StoreProvider>
+      {children}
+    </StoreProvider>
     </body>
     </html>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
-import ProductsPage from '../../(pages)/products';
-import { AppLayout } from '../../(pages)/layout';
+import { AppLayout } from '@/widgets/layout';
+import ProductsPage from '@/(pages)/products';
 
 const Page = () => {
   return (
