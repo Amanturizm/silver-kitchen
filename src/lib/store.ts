@@ -1,11 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { brandsReducer } from '@/features/brands/brandsSlice';
+import { brandsApiSlice } from '@/features/brands/brandsApiSlice';
+import { categoriesApiSlice } from '@/features/categories/categoriesApiSlice';
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      brands: brandsReducer
+      [brandsApiSlice.reducerPath]: brandsApiSlice.reducer,
+      [categoriesApiSlice.reducerPath]: categoriesApiSlice.reducer,
     },
+    middleware: getDefaultMiddleware =>
+      getDefaultMiddleware()
+        .concat(brandsApiSlice.middleware)
+        .concat(categoriesApiSlice.middleware),
   });
 };
 

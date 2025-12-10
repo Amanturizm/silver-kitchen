@@ -1,9 +1,10 @@
 'use client';
 
 import Header from '@/widgets/layout/ui/header';
+import Categories from '@/widgets/layout/ui/categories';
+import Brands from '@/widgets/layout/ui/brands';
+import Advantages from '@/widgets/layout/ui/advantages';
 import Footer from '@/widgets/layout/ui/footer';
-import Equipments from '@/widgets/layout/ui/equipments';
-
 
 type Props = {
   children?: React.ReactNode
@@ -11,13 +12,15 @@ type Props = {
 
 export const AppLayout = ({ children }: Props) => {
   return (
-    <div className="container">
+    <>
       <Header/>
-      <Equipments/>
-      <main>
+      <Categories/>
+      <main className="container pb-10">
         {children}
       </main>
+      <Brands/>
+      <Advantages/>
       <Footer/>
-    </div>
+    </>
   );
 };

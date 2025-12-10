@@ -1,7 +1,8 @@
 @import "tailwindcss";
+@import "tailwindcss-animated";
 
 :root {
-    --background: #ffffff;
+    --background: #F6F6F6;
     --foreground: #171717;
 }
 
@@ -11,5 +12,7 @@ body {
 }
 
 .container {
-    padding: 0 40px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: calc(100vw - 80px);
 }

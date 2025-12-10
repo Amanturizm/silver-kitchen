@@ -17,7 +17,7 @@ const Header = () => {
 
   return (
     <header
-      className="relative mt-7 w-[calc(100vw-80px)] h-[33vw] bg-[url('@/shared/assets/images/header-background.jpg')] bg-no-repeat bg-cover bg-top-left rounded-[25px]"
+      className="container relative mt-7 h-[33vw] bg-[url('@/shared/assets/images/header-background.png')] bg-no-repeat bg-cover bg-top-left rounded-[25px]"
     >
       <div className="flex items-center justify-between max-w-2/4 h-[80px] pl-8 pt-8">
         <Image src={logoImg} alt="logo-img" height={80}/>
