@@ -14,22 +14,24 @@ const DropdownCategory: React.FC<DropdownCategoryProps> = ({ category, onClickCa
   const router = useRouter();
   const [openCategoryId, setOpenCategoryId] = useState<number | null>(null);
 
-  const handleCategoryClick = (cat: CategoriesItem) => {
-    if (cat.children && cat.children.length > 0) {
-      setOpenCategoryId(openCategoryId === cat.id ? null : cat.id);
-    } else {
-      onClickCategory?.();
-      setOpenCategoryId(null);
-      router.push(`/products?categoryId=${cat.id}`, { scroll: false });
-    }
+  const handleCategoryClick = (cat: CategoriesItem, e: React.MouseEvent) => {
+    e.stopPropagation();
+    onClickCategory?.();
+    setOpenCategoryId(null);
+    router.push(`/products?categoryId=${cat.id}`, { scroll: false });
   };
 
   const isOpenChildren = openCategoryId === category.id && category.children && category.children.length > 0;
 
   return (
-    <div className="relative">
+    <div
+      className="relative"
+      onClick={(e) => e.stopPropagation()}
+      onMouseOver={() => category.children?.length && setOpenCategoryId(category.id)}
+      onMouseLeave={() => category.children?.length && setOpenCategoryId(null)}
+    >
       <div
-        onClick={() => handleCategoryClick(category)}
+        onClick={(e) => handleCategoryClick(category, e)}
         className={`
         hover:bg-[#347EA8]
         px-4 py-2 cursor-pointer rounded-[4px]
@@ -49,6 +51,7 @@ const DropdownCategory: React.FC<DropdownCategoryProps> = ({ category, onClickCa
             className={`
             transition-transform duration-100 ease-in-out
             ${isOpenChildren ? 'rotate-90' : 'rotate-0'}
+             pointer-events-none
             `}
           />
         )}
@@ -56,10 +59,20 @@ const DropdownCategory: React.FC<DropdownCategoryProps> = ({ category, onClickCa
 
       {isOpenChildren && (
         <div
-          className="absolute top-0 left-full mt-0 ml-2 bg-[#215573] rounded-[12px] shadow-lg z-20 w-full animate-fade-down animate-duration-200">
-          {category.children.map((child, i) => (
-            <DropdownCategory key={child.id} category={child} isLastItem={category.children.length - 1 === i} onClickCategory={onClickCategory}/>
-          ))}
+          className="absolute top-0 left-full mt-0 pl-2 w-full"
+        >
+          <div
+            className="bg-[#215573] rounded-[12px] shadow-lg z-20 animate-fade-down animate-duration-200"
+          >
+            {category.children.map((child, i) => (
+              <DropdownCategory
+                key={child.id}
+                category={child}
+                isLastItem={category.children.length - 1 === i}
+                onClickCategory={onClickCategory}
+              />
+            ))}
+          </div>
         </div>
       )}
     </div>

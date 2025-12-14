@@ -1,0 +1,75 @@
+'use client';
+
+import React, { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Image from 'next/image';
+import chevronIcon from '@/shared/assets/icons/chevron.svg';
+import { CategoriesItem } from '@/features/categories/types';
+import ChildMenu from '@/widgets/ui/CategoryMenu/ui/ChildMenu';
+import { useGetCategoriesQuery } from '@/features/categories/categoriesApiSlice';
+
+const CategoryMenu = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const activeCategoryId = Number(searchParams.get('categoryId'));
+  const [openCategoryId, setOpenCategoryId] = useState<number | null>(null);
+
+  const { data: categories } = useGetCategoriesQuery();
+
+  const handleClick = (category: CategoriesItem) => {
+    router.push(`/products?categoryId=${category.id}`, { scroll: false });
+  };
+
+  const openDropdown = (category: CategoriesItem) => {
+    setOpenCategoryId(prev => (prev === category.id ? null : category.id));
+  };
+  return categories && categories.length && (
+    <div className="py-5 bg-[#215573] rounded-[12px] shadow-lg text-white">
+      {categories?.map(category => {
+        const isOpen = openCategoryId === category.id;
+        const isActive = activeCategoryId === category.id;
+
+        return (
+          <div key={category.id}>
+            <div
+              onClick={() => handleClick(category)}
+              className={`
+                px-4 py-2 cursor-pointer
+                flex justify-between items-center rounded-[4px] mb-0.5
+                ${isActive ? 'bg-[#347EA8]' : 'bg-[#2e5f7b]'}
+                hover:bg-[#347EA8]
+              `}
+            >
+              <span>{category.name}</span>
+
+              {category.children?.length > 0 && (
+                <Image
+                  src={chevronIcon}
+                  alt=""
+                  width={20}
+                  height={20}
+                  className={`
+                    transition-transform
+                    ${isOpen ? 'rotate-90' : ''}
+                  `}
+                  onClick={() => openDropdown(category)}
+                />
+              )}
+            </div>
+
+            {isOpen && (
+              <div>
+                {category.children.map(child => (
+                  <ChildMenu key={child.id} child={child} activeCategoryId={activeCategoryId} level={2}/>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+export default CategoryMenu;
