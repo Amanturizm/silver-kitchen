@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { CategoriesItem } from '@/features/categories/types';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import chevronIcon from '@/shared/assets/icons/chevron.svg';
+import { containsActive } from '@/widgets/ui/CategoryMenu/constants';
 
 interface Props {
   child: CategoriesItem;
@@ -16,18 +17,25 @@ const paddingClasses = ['pl-4', 'pl-8', 'pl-12', 'pl-16', 'pl-20', 'pl-24', 'pl-
 
 const ChildMenu: React.FC<Props> = ({ child, activeCategoryId, level = 1 }) => {
   const router = useRouter();
-  const [openChildId, setOpenChildId] = useState<number | null>(null);
+
+  const [isManuallyOpen, setIsManuallyOpen] = useState<boolean | null>(null);
 
   const isActive = activeCategoryId === child.id;
   const hasChildren = child.children && child.children.length > 0;
-  const isOpen = openChildId === child.id;
+
+  const autoOpenChild = useMemo(() => {
+    if (!activeCategoryId || !hasChildren) return false;
+    return containsActive(child, activeCategoryId);
+  }, [child, activeCategoryId, hasChildren]);
+
+  const isOpen = isManuallyOpen ?? autoOpenChild;
 
   const handleClick = () => {
     router.push(`/products?categoryId=${child.id}`, { scroll: false });
   };
 
   const openDropdown = () => {
-    setOpenChildId(prev => (prev === child.id ? null : child.id));
+    setIsManuallyOpen(prev => !prev);
   };
 
   return (

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useGetItemsQuery } from '@/features/items/itemsApiSlice';
 import { Item, ItemsFilter, SearchResponse } from '@/features/items/types';
@@ -47,21 +47,16 @@ const itemsMock: SearchResponse<Item> = {
 const ProductsPage = () => {
   const searchParams = useSearchParams();
 
-  const [filter, setFilter] = useState<ItemsFilter>({
-    categoryId: null,
-    brandId: null,
-    minPrice: null,
-    maxPrice: null,
-    limit: 20,
-    page: 1,
-    sortDirection: null,
-  });
-
-  const { data: itemsResponse } = useGetItemsQuery(filter);
-  const items = (itemsResponse ?? itemsMock)?.data;
-
-  useEffect(() => {
-    const nextFilter: Partial<ItemsFilter> = {};
+  const filter = useMemo<ItemsFilter>(() => {
+    const nextFilter: ItemsFilter = {
+      categoryId: null,
+      brandId: null,
+      minPrice: null,
+      maxPrice: null,
+      limit: 20,
+      page: 1,
+      sortDirection: null,
+    };
 
     searchParams.forEach((value, key) => {
       if (!value) return;
@@ -73,23 +68,14 @@ const ProductsPage = () => {
       }
     });
 
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setFilter(prev => {
-      let changed = false;
-
-      for (const key in nextFilter) {
-        if (prev[key as keyof ItemsFilter] !== nextFilter[key as keyof ItemsFilter]) {
-          changed = true;
-          break;
-        }
-      }
-
-      return changed ? { ...prev, ...nextFilter } : prev;
-    });
+    return nextFilter;
   }, [searchParams]);
 
+  const { data: itemsResponse } = useGetItemsQuery(filter);
+  const items = (itemsResponse ?? itemsMock)?.data;
+
   return (
-    <div className="py-16">
+    <div className="py-16" id="products">
       <h1 className="uppercase text-2xl font-medium px-8">Кухонное оборудование</h1>
 
       <div className="mt-14 flex items-start">

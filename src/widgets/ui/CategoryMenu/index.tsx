@@ -1,21 +1,35 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import chevronIcon from '@/shared/assets/icons/chevron.svg';
 import { CategoriesItem } from '@/features/categories/types';
 import ChildMenu from '@/widgets/ui/CategoryMenu/ui/ChildMenu';
 import { useGetCategoriesQuery } from '@/features/categories/categoriesApiSlice';
+import { containsActive } from '@/widgets/ui/CategoryMenu/constants';
 
 const CategoryMenu = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const activeCategoryId = Number(searchParams.get('categoryId'));
-  const [openCategoryId, setOpenCategoryId] = useState<number | null>(null);
 
   const { data: categories } = useGetCategoriesQuery();
+
+  const autoOpenCategoryId = useMemo(() => {
+    if (!categories || !activeCategoryId) return null;
+
+    const category = categories.find(cat =>
+      cat.children && containsActive(cat, activeCategoryId)
+    );
+
+    return category?.id ?? null;
+  }, [categories, activeCategoryId]);
+
+  const [openCategoryId, setOpenCategoryId] = useState<number | null>(null);
+
+  const resolvedOpenCategoryId = openCategoryId ?? autoOpenCategoryId;
 
   const handleClick = (category: CategoriesItem) => {
     router.push(`/products?categoryId=${category.id}`, { scroll: false });
@@ -24,10 +38,11 @@ const CategoryMenu = () => {
   const openDropdown = (category: CategoriesItem) => {
     setOpenCategoryId(prev => (prev === category.id ? null : category.id));
   };
+
   return categories && categories.length && (
     <div className="py-5 bg-[#215573] rounded-[12px] shadow-lg text-white">
       {categories?.map(category => {
-        const isOpen = openCategoryId === category.id;
+        const isOpen = resolvedOpenCategoryId === category.id;
         const isActive = activeCategoryId === category.id;
 
         return (

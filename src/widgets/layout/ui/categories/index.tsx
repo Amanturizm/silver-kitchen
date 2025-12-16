@@ -35,32 +35,36 @@ const Categories = () => {
   }, []);
 
   return (
-    <div className="container mt-8 flex flex-wrap gap-8">
+    <div className="container max-[2000px]:mt-4 mt-8 flex max-[1700px]:flex-wrap max-[2000px]:gap-4 gap-8">
       {(categories ?? categoriesMock)?.map((category, i) => {
         const isOpen = openCategoryId === category.id && category.children?.length > 0;
 
         return (
           <div
             key={category.id + 'category'}
-            style={{ backgroundImage: categories?.length ? `url(${BASE_URL}/uploads/${category.image})` : `url(${category.image})` }}
-            className={`relative min-w-[220px] xl:w-[500px] bg-no-repeat bg-cover bg-top-left rounded-[${isOpen ? '0' : '20px'}] h-48 px-6 py-6 pt-8 text-white overflow-${isOpen ? 'visible' : 'hidden'} cursor-pointer`}
+            style={{
+              backgroundImage: categories?.length
+                ? `url(${BASE_URL}/uploads/${category.image})`
+                : `url(${category.image})`
+            }}
+            className={`relative flex-1 min-w-[220px] max-[1700px]:w-full bg-no-repeat bg-cover bg-top-left rounded-[${isOpen ? '0' : '20px'}] h-48 max-[2000px]:px-4 px-6 max-[2000px]:py-4 py-6 max-[2000px]:pt-4 pt-8 text-white overflow-${isOpen ? 'visible' : 'hidden'} cursor-pointer`}
             onClick={() => router.push(`/products?categoryId=${category.id}`, { scroll: false })}
           >
             <div className={`absolute inset-0 rounded-[${isOpen ? '0' : '20px'}] bg-[#838B99]/85`}/>
             <div className="relative flex flex-col justify-between h-full">
-              <h1 className="text-2xl">{category.name}</h1>
+              <h1 className="max-[2000px]:text-xl text-2xl leading-6">{category.name}</h1>
 
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   handleCategoryClick(category);
                 }}
-                className="rounded-[12px] w-full border border-white py-1.5 text-md mt-4 cursor-pointer"
+                className="rounded-[12px] w-full border border-white py-1.5 text-md max-[2000px]:mt-0 mt-4 cursor-pointer"
               >
                 Подробнее
               </button>
 
-              {openCategoryId === category.id && category.children?.length > 0 && (
+              {isOpen && category.children?.length > 0 && (
                 <div
                   className="absolute top-full left-0 mt-2 py-4 bg-[#215573] rounded-[12px] shadow-lg z-50 w-full animate-fade-down animate-duration-200"
                   ref={containerRef}
@@ -80,6 +84,7 @@ const Categories = () => {
         );
       })}
     </div>
+
   );
 };
 
