@@ -20,6 +20,7 @@ const ItemCard = ({ item }: ItemCardProps) => {
                 alt=""
                 fill
                 className="object-contain"
+                unoptimized
               />
             </div>
           )}
@@ -33,7 +34,7 @@ const ItemCard = ({ item }: ItemCardProps) => {
           <span className="text-center text-lg">{item.price} сом</span>
           :
           <button className="text-red-500 text-lg font-medium hover:underline cursor-pointer">
-            Узнать стоимость
+            Договорная
           </button>
       }
     </div>

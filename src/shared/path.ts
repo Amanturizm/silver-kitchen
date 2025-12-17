@@ -10,6 +10,7 @@ export class Path {
 
   static Brands = class {
     static fetchAll = baseUrl('brands');
+    static create = baseUrl('brands');
   };
 
   static Categories = class {
@@ -18,5 +19,10 @@ export class Path {
 
   static Items = class {
     static search = (filter: ItemsFilter) => baseUrl(`items/search?${buildQueryString(filter)}`);
+  };
+
+  static Auth = class {
+    static login = baseUrl('auth/login');
+    static logout = baseUrl('auth/logout');
   };
 }

@@ -5,3 +5,9 @@ export interface BrandsItem {
   desc: string | null;
   active: boolean;
 }
+
+export interface BrandRequest {
+  name: string;
+  desc?: string;
+  image: File;
+}

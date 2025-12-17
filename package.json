@@ -10,17 +10,22 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.0",
+    "lucide-react": "^0.561.0",
     "next": "16.0.6",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "react-hook-form": "^7.68.0",
     "react-redux": "^9.2.0",
-    "tailwindcss-animated": "^2.0.0"
+    "tailwindcss-animated": "^2.0.0",
+    "yup": "^1.7.1"
   },
   "devDependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/yup": "^0.29.14",
     "autoprefixer": "^10.4.22",
     "eslint": "^9",
     "eslint-config-next": "16.0.6",
