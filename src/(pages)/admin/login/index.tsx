@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { InputField } from '@/widgets/ui/TextField';
-import { useLoginMutation } from '@/features/auth/authApiSlice';
+import { useLoginMutation, useMeQuery } from '@/features/auth/authApiSlice';
 import { LoginRequest } from '@/features/auth/types';
 import { useCreateBrandMutation } from '@/features/brands/brandsApiSlice';
 
@@ -15,11 +15,13 @@ const LoginPage = () => {
   });
 
   const [login, { isLoading }] = useLoginMutation();
-  // const [createBrand] = useCreateBrandMutation();
+  const [createBrand] = useCreateBrandMutation();
+  const {data, refetch} = useMeQuery();
 
   const onSubmit = async (values: LoginRequest) => {
     try {
       const data = await login(values).unwrap();
+      refetch()
       console.log(data);
     } catch (error) {
       console.error(error);
@@ -28,19 +30,20 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <button
+        onClick={() => {
+          const file = new File(['test content'], 'test.txt', { type: 'text/plain' });
+          createBrand({ name: 'Vlad', desc: 'test', image: file });
+        }}
+        className="fixed top-10 mt-4 rounded-md bg-green-600 text-white py-2 px-4 hover:bg-green-700 transition cursor-pointer"
+      >
+        Создать бренд
+      </button>
+
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="w-full max-w-[400px] rounded-2xl bg-white shadow-2xl px-6 py-8 flex flex-col"
       >
-        {/*<button*/}
-        {/*  onClick={() => {*/}
-        {/*    const file = new File(["test content"], "test.txt", { type: "text/plain" });*/}
-        {/*    createBrand({ name: 'Vlad', desc: 'test', image: file });*/}
-        {/*  }}*/}
-        {/*  className="mt-4 rounded-md bg-green-600 text-white py-2 px-4 hover:bg-green-700 transition cursor-pointer"*/}
-        {/*>*/}
-        {/*  Создать бренд*/}
-        {/*</button>*/}
         <span className="text-lg font-semibold text-center">
           Авторизация
         </span>

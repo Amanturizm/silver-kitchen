@@ -9,7 +9,7 @@ const ProfileMenu = () => {
   const profileRef = useRef<HTMLDivElement | null>(null);
   const [logout] = useLogoutMutation();
 
-  const user = JSON.parse(localStorage.getItem('user')) as LoginResponse | null;
+  const user = JSON.parse(localStorage.getItem('user') as string) as LoginResponse | null;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -40,7 +40,7 @@ const ProfileMenu = () => {
     <div className="relative" ref={profileRef}>
       <button
         onClick={() => setProfileOpen((prev) => !prev)}
-        className="flex items-center gap-2 p-2 rounded hover:bg-gray-100 cursor-pointer"
+        className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-100 cursor-pointer"
       >
         {user?.username}
       </button>

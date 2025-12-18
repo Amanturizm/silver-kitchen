@@ -24,5 +24,6 @@ export class Path {
   static Auth = class {
     static login = baseUrl('auth/login');
     static logout = baseUrl('auth/logout');
+    static me = baseUrl('auth/me');
   };
 }

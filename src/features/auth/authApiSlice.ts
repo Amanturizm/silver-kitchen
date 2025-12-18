@@ -13,11 +13,35 @@ export const authApiSlice = createApi({
         method: 'POST',
         body: body,
       }),
+      async onQueryStarted(_, { queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+
+          localStorage.setItem('user', JSON.stringify(data));
+        } catch {
+          // nothing
+        }
+      },
     }),
     logout: builder.mutation<void, void>({
       query: () => ({
         url: Path.Auth.logout,
         method: 'POST',
+      }),
+      async onQueryStarted(_, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          localStorage.removeItem('user');
+        } catch {
+          // nothing
+        }
+      },
+    }),
+    me: builder.query<void, void>({
+      query: () => ({
+        url: Path.Auth.me,
+        method: 'GET',
+        credentials: 'include'
       }),
     }),
   }),
@@ -25,5 +49,6 @@ export const authApiSlice = createApi({
 
 export const {
   useLoginMutation,
-  useLogoutMutation
+  useLogoutMutation,
+  useMeQuery
 } = authApiSlice;

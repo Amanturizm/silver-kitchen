@@ -12,12 +12,12 @@ const Sidebar = () => {
   const path = usePathname();
 
   return (
-    <aside className="w-[300px] bg-white shadow-md flex-shrink-0">
-      <div className="h-16 px-2 text-lg font-bold border-b flex items-center">
+    <aside className="w-[300px] flex-shrink-0">
+      <div className="h-16 px-2 text-lg font-bold flex items-center bg-white shadow-md rounded-br-xl">
         <Image src={logoImg} alt="logo-img" height={60} priority/>
       </div>
 
-      <nav className="mt-4 text-lg flex flex-col gap-1 px-2">
+      <nav className="mt-4 pt-4 text-lg flex flex-col gap-1 px-2 bg-white h-full shadow-md rounded-tr-xl">
         <Link href="/admin/items" className={getNavClass(path === '/admin/items')}>Товары</Link>
         <Link href="/admin/brands" className={getNavClass(path === '/admin/brands')}>Бренды</Link>
         <Link href="/admin/categories" className={getNavClass(path === '/admin/categories')}>Категории</Link>

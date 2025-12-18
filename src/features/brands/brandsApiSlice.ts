@@ -28,6 +28,7 @@ export const brandsApiSlice = createApi({
         return {
           url: Path.Brands.create,
           method: 'POST',
+          credentials: 'include',
           body: formData,
         };
       },
