@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { AppLayout } from '@/widgets/layout';
 import ProductsPage from '@/(pages)/products';
 
 const Page = () => {
   return (
     <AppLayout>
-      <ProductsPage />
+      <Suspense>
+        <ProductsPage />
+      </Suspense>
     </AppLayout>
   );
 };

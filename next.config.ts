@@ -20,10 +20,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-
-  experimental: {
-    allowDevelopmentBuild: true,
-  },
 };
 
 export default nextConfig;
