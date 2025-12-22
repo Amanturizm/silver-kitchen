@@ -4,10 +4,11 @@ import React, { useMemo } from 'react';
 import AddButton from '@/widgets/ui/AddButton';
 import { useRouter, useSearchParams } from 'next/navigation';
 import DynamicTable from '@/widgets/ui/DynamicTable';
-import { useGetItemsQuery } from '@/features/items/itemsApiSlice';
+import { useDeleteItemMutation, useGetItemsQuery } from '@/features/items/itemsApiSlice';
 import { ItemsFilter } from '@/features/items/types';
 import { itemsTableConfig } from '@/widgets/ui/DynamicTable/configs/items';
 import Pagination from '@/widgets/ui/Pagination';
+import { toast } from 'sonner';
 
 const Items = () => {
   const router = useRouter();
@@ -42,10 +43,21 @@ const Items = () => {
     refetchOnMountOrArgChange: true,
   });
 
+  const [deleteItem] = useDeleteItemMutation();
+
   const setPage = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set('page', String(page));
     router.push(`?${params.toString()}`);
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteItem(id).unwrap();
+      toast.success('Товар успешно удалён');
+    } catch (e) {
+      toast.error('Что-то пошло не так. Попробуйте позже.');
+    }
   };
 
   return (
@@ -62,6 +74,7 @@ const Items = () => {
           ...itemsTableConfig,
           onRowClick: (row) => router.push(`/admin/items/${row.id}`),
         }}
+        deleteQuery={handleDelete}
       />
 
       {data && (

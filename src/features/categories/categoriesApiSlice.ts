@@ -45,6 +45,13 @@ export const categoriesApiSlice = createApi({
         };
       },
     }),
+
+    deleteCategory: builder.mutation<void, string>({
+      query: (id: string) => ({
+        url: Path.Categories.delete(id),
+        method: 'DELETE',
+      }),
+    }),
   }),
 });
 
@@ -53,4 +60,5 @@ export const {
   useGetCategoryQuery,
   useCreateCategoryMutation,
   useUpdateCategoryMutation,
+  useDeleteCategoryMutation,
 } = categoriesApiSlice;

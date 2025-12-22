@@ -16,6 +16,7 @@ import { cleanupParentFields, extractFinalParentId } from '@/widgets/ui/DynamicF
 import { ItemRequest } from '@/features/items/types';
 import { useGetCategoriesQuery } from '@/features/categories/categoriesApiSlice';
 import { useGetBrandsQuery } from '@/features/brands/brandsApiSlice';
+import { toast } from 'sonner';
 
 const Page = () => {
   const router = useRouter();
@@ -61,8 +62,9 @@ const Page = () => {
 
       await updateItem(body as ItemRequest & { id: string }).unwrap();
       router.push('/admin/items');
+      toast.success('Товар успешно изменён');
     } catch (e) {
-      console.error(e);
+      toast.error('Что-то пошло не так. Попробуйте позже.');
     }
   };
 

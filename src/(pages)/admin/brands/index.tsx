@@ -1,21 +1,34 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useGetBrandsQuery } from '@/features/brands/brandsApiSlice';
+import { useDeleteBrandMutation, useGetBrandsQuery } from '@/features/brands/brandsApiSlice';
 import AddButton from '@/widgets/ui/AddButton';
 import DynamicTable from '@/widgets/ui/DynamicTable';
 import Pagination from '@/widgets/ui/Pagination';
 import { brandsTableConfig } from '@/widgets/ui/DynamicTable/configs/brands';
+import { toast } from 'sonner';
 
 const Brands = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const page = Number(searchParams.get('page')) || 1;
 
-  const { data = [], isLoading } = useGetBrandsQuery(undefined, {
+  const {
+    data = [],
+    isLoading,
+    isError,
+  } = useGetBrandsQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
+
+  useEffect(() => {
+    if (isError) {
+      toast.error('Что-то пошло не так. Попробуйте позже.');
+    }
+  }, [isError]);
+
+  const [deleteBrand] = useDeleteBrandMutation();
 
   const limit = 10;
 
@@ -36,6 +49,15 @@ const Brands = () => {
     router.push(`?${params.toString()}`);
   };
 
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteBrand(id).unwrap();
+      toast.success('Бренд успешно удалён');
+    } catch (e) {
+      toast.error('Что-то пошло не так. Попробуйте позже.');
+    }
+  };
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex justify-between items-start">
@@ -49,6 +71,7 @@ const Brands = () => {
           ...brandsTableConfig,
           onRowClick: (row) => router.push(`/admin/brands/${row.id}`),
         }}
+        deleteQuery={handleDelete}
       />
 
       {totalPages > 1 && (

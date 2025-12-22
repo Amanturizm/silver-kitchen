@@ -4,11 +4,15 @@ import React from 'react';
 import AddButton from '@/widgets/ui/AddButton';
 import { useRouter, useSearchParams } from 'next/navigation';
 import DynamicTable from '@/widgets/ui/DynamicTable';
-import { useGetCategoriesQuery } from '@/features/categories/categoriesApiSlice';
+import {
+  useDeleteCategoryMutation,
+  useGetCategoriesQuery,
+} from '@/features/categories/categoriesApiSlice';
 import { categoriesTableConfig } from '@/widgets/ui/DynamicTable/configs/categories';
 import TableFilter from '@/widgets/ui/TableFilter';
 import { Breadcrumbs } from '@/widgets/ui/Breadcrumbs';
 import { findPath } from '@/shared/constants';
+import { toast } from 'sonner';
 
 const Categories = () => {
   const router = useRouter();
@@ -18,6 +22,8 @@ const Categories = () => {
   const queryResult = useGetCategoriesQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
+
+  const [deleteCategory] = useDeleteCategoryMutation();
 
   const { data = [] } = queryResult;
 
@@ -36,6 +42,15 @@ const Categories = () => {
       label: c.name,
       value: String(c.id),
     }));
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteCategory(id).unwrap();
+      toast.success('Категория успешно удалена');
+    } catch (e) {
+      toast.error('Что-то пошло не так. Попробуйте позже.');
+    }
+  };
 
   return (
     <div className="flex flex-col">
@@ -64,6 +79,7 @@ const Categories = () => {
           ...categoriesTableConfig,
           onRowClick: (row) => router.push(`/admin/categories?parentId=${row.id}`),
         }}
+        deleteQuery={handleDelete}
       />
     </div>
   );

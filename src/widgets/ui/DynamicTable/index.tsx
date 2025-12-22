@@ -5,6 +5,7 @@ import { TableConfig } from '@/widgets/ui/DynamicTable/types';
 import { useRouter } from 'next/navigation';
 import { Pencil, Settings2, Trash, View } from 'lucide-react';
 import { Loading, NotFound } from '@/widgets/ui/Message';
+import { AppModal } from '@/widgets/ui/AppModal';
 
 interface QueryResult<T> {
   data?: T[];
@@ -14,12 +15,16 @@ interface QueryResult<T> {
 interface Props<T> {
   queryResult: QueryResult<T>;
   config: TableConfig<T>;
+  deleteQuery?: (id: string) => Promise<void>;
 }
 
-const DynamicTable = <T,>({ queryResult, config }: Props<T>) => {
+const DynamicTable = <T,>({ queryResult, config, deleteQuery }: Props<T>) => {
   const router = useRouter();
   const { data = [], isLoading } = queryResult;
   const [openRow, setOpenRow] = useState<string | number | null>(null);
+  const [open, setOpen] = useState(false);
+  const [currentId, setCurrentId] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -30,6 +35,24 @@ const DynamicTable = <T,>({ queryResult, config }: Props<T>) => {
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
+
+  const openModal = (id: string) => {
+    setCurrentId(id);
+    setOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!currentId) return;
+    try {
+      setDeleting(true);
+      await deleteQuery?.(currentId);
+      setOpen(false);
+      setCurrentId(null);
+      setOpenRow(null);
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   return (
     <div className="rounded-md border border-gray-300 bg-white">
@@ -115,16 +138,18 @@ const DynamicTable = <T,>({ queryResult, config }: Props<T>) => {
                           <View size={16} />
                           Подробный просмотр
                         </button>
-                        <button
-                          className="w-full text-left px-3 py-2 text-md hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            router.push(`/admin/${config.pageName}/${rowKey}`);
-                          }}
-                        >
-                          <Trash size={16} />
-                          Удалить
-                        </button>
+                        {deleteQuery && (
+                          <button
+                            className="w-full text-left px-3 py-2 text-md hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openModal(String(rowKey));
+                            }}
+                          >
+                            <Trash size={16} />
+                            Удалить
+                          </button>
+                        )}
                       </div>
                     )}
                   </div>
@@ -134,6 +159,17 @@ const DynamicTable = <T,>({ queryResult, config }: Props<T>) => {
           })}
         </tbody>
       </table>
+
+      <AppModal
+        open={open}
+        onClose={() => setOpen(false)}
+        onConfirm={handleConfirmDelete}
+        title="Подтвердите удаление"
+        confirmText={deleting ? 'Удаление...' : 'Удалить'}
+        cancelText="Отмена"
+      >
+        Вы точно хотите удалить этот элемент?
+      </AppModal>
     </div>
   );
 };

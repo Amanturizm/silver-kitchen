@@ -13,6 +13,7 @@ import {
 import { cleanupParentFields, extractFinalParentId } from '@/widgets/ui/DynamicForm/configs/utils';
 import { useGetBrandsQuery } from '@/features/brands/brandsApiSlice';
 import { useGetCategoriesQuery } from '@/features/categories/categoriesApiSlice';
+import { toast } from 'sonner';
 
 const Page = () => {
   const router = useRouter();
@@ -48,8 +49,9 @@ const Page = () => {
 
       await createItem(body as ItemRequest).unwrap();
       router.push('/admin/items');
+      toast.success('Товар успешно создан');
     } catch (e) {
-      console.error(e);
+      toast.error('Что-то пошло не так. Попробуйте позже.');
     }
   };
 

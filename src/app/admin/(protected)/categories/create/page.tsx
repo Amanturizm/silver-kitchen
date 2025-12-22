@@ -10,6 +10,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { useDynamicChainSelect } from '@/widgets/ui/DynamicForm/configs/hooks';
 import { cleanupParentFields, extractFinalParentId } from '@/widgets/ui/DynamicForm/configs/utils';
+import { toast } from 'sonner';
 
 const Page = () => {
   const router = useRouter();
@@ -37,8 +38,9 @@ const Page = () => {
 
       await createCategory(body).unwrap();
       router.push('/admin/categories?parentId=' + body.parentId);
+      toast.success('Категория успешно создана');
     } catch (e) {
-      console.error(e);
+      toast.error('Что-то пошло не так. Попробуйте позже.');
     }
   };
 

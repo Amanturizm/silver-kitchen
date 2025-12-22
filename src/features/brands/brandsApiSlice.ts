@@ -45,6 +45,13 @@ export const brandsApiSlice = createApi({
         };
       },
     }),
+
+    deleteBrand: builder.mutation<void, string>({
+      query: (id: string) => ({
+        url: Path.Brands.delete(id),
+        method: 'DELETE',
+      }),
+    }),
   }),
 });
 
@@ -53,4 +60,5 @@ export const {
   useGetBrandQuery,
   useCreateBrandMutation,
   useUpdateBrandMutation,
+  useDeleteBrandMutation,
 } = brandsApiSlice;

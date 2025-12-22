@@ -6,6 +6,7 @@ import { FORM_PROPS } from '@/widgets/ui/DynamicForm/configs/form-fields';
 import { useCreateBrandMutation } from '@/features/brands/brandsApiSlice';
 import { BrandRequest } from '@/features/brands/types';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 const Page = () => {
   const router = useRouter();
@@ -24,8 +25,9 @@ const Page = () => {
 
       await createBrand(body as BrandRequest).unwrap();
       router.push('/admin/brands');
+      toast.success('Бренд успешно создан');
     } catch (e) {
-      console.error(e);
+      toast.error('Что-то пошло не так. Попробуйте позже.');
     }
   };
 

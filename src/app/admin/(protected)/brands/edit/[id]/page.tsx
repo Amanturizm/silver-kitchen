@@ -7,6 +7,7 @@ import { useGetBrandQuery, useUpdateBrandMutation } from '@/features/brands/bran
 import { BrandRequest } from '@/features/brands/types';
 import { useParams, useRouter } from 'next/navigation';
 import { Loading, NotFound } from '@/widgets/ui/Message';
+import { toast } from 'sonner';
 
 const Page = () => {
   const router = useRouter();
@@ -29,8 +30,9 @@ const Page = () => {
 
       await updateBrand(body as BrandRequest).unwrap();
       router.push('/admin/brands');
+      toast.success('Бренд успешно изменён');
     } catch (e) {
-      console.error(e);
+      toast.error('Что-то пошло не так. Попробуйте позже.');
     }
   };
 

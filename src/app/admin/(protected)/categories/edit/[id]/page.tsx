@@ -15,6 +15,7 @@ import { useDynamicChainSelect } from '@/widgets/ui/DynamicForm/configs/hooks';
 import { findPath } from '@/shared/constants';
 import { TreeNode } from '@/widgets/ui/DynamicForm/configs/types';
 import { cleanupParentFields, extractFinalParentId } from '@/widgets/ui/DynamicForm/configs/utils';
+import { toast } from 'sonner';
 
 const Page = () => {
   const router = useRouter();
@@ -66,8 +67,9 @@ const Page = () => {
 
       await updateCategory(body).unwrap();
       router.push('/admin/categories?parentId=' + body.parentId);
+      toast.success('Категория успешно изменена');
     } catch (e) {
-      console.error(e);
+      toast.error('Что-то пошло не так. Попробуйте позже.');
     }
   };
 
