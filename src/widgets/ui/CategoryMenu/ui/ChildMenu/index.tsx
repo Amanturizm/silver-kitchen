@@ -35,7 +35,7 @@ const ChildMenu: React.FC<Props> = ({ child, activeCategoryId, level = 1 }) => {
   };
 
   const openDropdown = () => {
-    setIsManuallyOpen(prev => !prev);
+    setIsManuallyOpen((prev) => !prev);
   };
 
   return (
@@ -67,13 +67,8 @@ const ChildMenu: React.FC<Props> = ({ child, activeCategoryId, level = 1 }) => {
 
       {hasChildren && isOpen && (
         <div>
-          {child.children.map(c => (
-            <ChildMenu
-              key={c.id}
-              child={c}
-              activeCategoryId={activeCategoryId}
-              level={level + 1}
-            />
+          {child.children.map((c) => (
+            <ChildMenu key={c.id} child={c} activeCategoryId={activeCategoryId} level={level + 1} />
           ))}
         </div>
       )}

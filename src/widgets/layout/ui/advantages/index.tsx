@@ -34,10 +34,11 @@ const Advantages = () => {
             <div
               className="min-w-[66px] min-h-[66px] flex items-center justify-center rounded-full"
               style={{
-                background: 'linear-gradient(255.52deg, rgba(80, 86, 98, 0.86) 2.38%, rgba(183, 188, 200, 0.86) 63.37%, rgba(80, 86, 98, 0.86) 99.22%)'
+                background:
+                  'linear-gradient(255.52deg, rgba(80, 86, 98, 0.86) 2.38%, rgba(183, 188, 200, 0.86) 63.37%, rgba(80, 86, 98, 0.86) 99.22%)',
               }}
             >
-              <Image src={item.icon} alt={`icon-${idx}`} width={24} height={24}/>
+              <Image src={item.icon} alt={`icon-${idx}`} width={24} height={24} />
             </div>
 
             <p className="text-xl font-medium text-[#090909]">{item.text}</p>

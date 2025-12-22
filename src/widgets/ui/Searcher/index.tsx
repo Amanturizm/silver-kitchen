@@ -4,14 +4,12 @@ import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import searchIcon from '@/shared/assets/icons/search.png';
 import { useGlobalSearchQuery } from '@/features/main/mainApiSlice';
-import { useRouter } from 'next/navigation';
 import SearchItem from '@/widgets/ui/Searcher/ui/SearchItem';
 import { buildQueryString } from '@/shared/constants';
 
 const DEBOUNCE_DELAY = 400;
 
 const Searcher = () => {
-  const router = useRouter();
   const [inputValue, setInputValue] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -75,7 +73,7 @@ const Searcher = () => {
           onClick={() => inputValue && setIsOpen(true)}
           className="flex items-center w-full h-[48px] bg-white rounded-[35px] px-5 shadow"
         >
-          <Image src={searchIcon} alt="search" width={18} height={18}/>
+          <Image src={searchIcon} alt="search" width={18} height={18} />
           <input
             type="text"
             placeholder="Поиск"
@@ -93,7 +91,7 @@ const Searcher = () => {
         </button>
       </form>
 
-      {isVisible &&
+      {isVisible && (
         <ul className="absolute top-full w-full bg-white rounded-[12px] shadow mt-2 max-h-60 overflow-y-auto">
           {items?.map((item) => (
             <SearchItem
@@ -117,7 +115,7 @@ const Searcher = () => {
             </SearchItem>
           ))}
         </ul>
-      }
+      )}
     </div>
   );
 };

@@ -20,8 +20,8 @@ const CategoryMenu = () => {
   const autoOpenCategoryId = useMemo(() => {
     if (!categories || !activeCategoryId) return null;
 
-    const category = categories.find(cat =>
-      cat.children && containsActive(cat, activeCategoryId)
+    const category = categories.find(
+      (cat) => cat.children && containsActive(cat, activeCategoryId),
     );
 
     return category?.id ?? null;
@@ -36,54 +36,62 @@ const CategoryMenu = () => {
   };
 
   const openDropdown = (category: CategoriesItem) => {
-    setOpenCategoryId(prev => (prev === category.id ? null : category.id));
+    setOpenCategoryId((prev) => (prev === category.id ? null : category.id));
   };
 
-  return categories && categories.length && (
-    <div className="py-5 bg-[#215573] rounded-[12px] shadow-lg text-white">
-      {categories?.map(category => {
-        const isOpen = resolvedOpenCategoryId === category.id;
-        const isActive = activeCategoryId === category.id;
+  return (
+    categories &&
+    categories.length && (
+      <div className="py-5 bg-[#215573] rounded-[12px] shadow-lg text-white">
+        {categories?.map((category) => {
+          const isOpen = resolvedOpenCategoryId === category.id;
+          const isActive = activeCategoryId === category.id;
 
-        return (
-          <div key={category.id}>
-            <div
-              onClick={() => handleClick(category)}
-              className={`
+          return (
+            <div key={category.id}>
+              <div
+                onClick={() => handleClick(category)}
+                className={`
                 px-4 py-2 cursor-pointer
                 flex justify-between items-center rounded-[4px] mb-0.5
                 ${isActive ? 'bg-[#347EA8]' : 'bg-[#2e5f7b]'}
                 hover:bg-[#347EA8]
               `}
-            >
-              <span>{category.name}</span>
+              >
+                <span>{category.name}</span>
 
-              {category.children?.length > 0 && (
-                <Image
-                  src={chevronIcon}
-                  alt=""
-                  width={20}
-                  height={20}
-                  className={`
+                {category.children?.length > 0 && (
+                  <Image
+                    src={chevronIcon}
+                    alt=""
+                    width={20}
+                    height={20}
+                    className={`
                     transition-transform
                     ${isOpen ? 'rotate-90' : ''}
                   `}
-                  onClick={() => openDropdown(category)}
-                />
+                    onClick={() => openDropdown(category)}
+                  />
+                )}
+              </div>
+
+              {isOpen && (
+                <div>
+                  {category.children.map((child) => (
+                    <ChildMenu
+                      key={child.id}
+                      child={child}
+                      activeCategoryId={activeCategoryId}
+                      level={2}
+                    />
+                  ))}
+                </div>
               )}
             </div>
-
-            {isOpen && (
-              <div>
-                {category.children.map(child => (
-                  <ChildMenu key={child.id} child={child} activeCategoryId={activeCategoryId} level={2}/>
-                ))}
-              </div>
-            )}
-          </div>
-        );
-      })}
-    </div>
+          );
+        })}
+      </div>
+    )
   );
 };
 

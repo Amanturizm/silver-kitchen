@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useLogoutMutation } from '@/features/auth/authApiSlice';
 import { useRouter } from 'next/navigation';
 import { LoginResponse } from '@/features/auth/types';
+import { LogOut, ShieldUser } from 'lucide-react';
 
 const ProfileMenu = () => {
   const router = useRouter();
@@ -13,10 +14,7 @@ const ProfileMenu = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        profileRef.current &&
-        !profileRef.current.contains(event.target as Node)
-      ) {
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
         setProfileOpen(false);
       }
     };
@@ -42,17 +40,18 @@ const ProfileMenu = () => {
         onClick={() => setProfileOpen((prev) => !prev)}
         className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-100 cursor-pointer"
       >
+        <ShieldUser size={18} />
         {user?.username}
       </button>
 
       {profileOpen && (
-        <div
-          className="absolute right-0 mt-2 w-40 bg-white shadow-md border border-gray-400 rounded-lg overflow-hidden">
+        <div className="absolute right-0 mt-2 w-35 text-md bg-white shadow-lg rounded-md overflow-hidden">
           <button
             onClick={handleLogout}
-            className="w-full text-left px-3 py-1.5 hover:bg-gray-100 cursor-pointer"
+            className="w-full flex justify-between items-center px-3 py-1.5 hover:bg-gray-100 cursor-pointer"
           >
             Выйти
+            <LogOut size={16} />
           </button>
         </div>
       )}

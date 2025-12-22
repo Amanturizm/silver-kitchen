@@ -3,10 +3,9 @@ import { useRouter } from 'next/navigation';
 import DropdownCategory from '@/widgets/layout/ui/categories/ui/DropdownCategory';
 import { useGetCategoriesQuery } from '@/features/categories/categoriesApiSlice';
 import { BASE_URL } from '@/shared/constants';
-import { categoriesMock } from '@/widgets/layout/ui/categories/constants';
 
 const Categories = () => {
-  const { data: categories, isLoading, isError } = useGetCategoriesQuery();
+  const { data: categories } = useGetCategoriesQuery();
 
   const router = useRouter();
   const [openCategoryId, setOpenCategoryId] = useState(null);
@@ -36,7 +35,7 @@ const Categories = () => {
 
   return (
     <div className="container max-[2000px]:mt-4 mt-8 flex max-[1700px]:flex-wrap max-[2000px]:gap-4 gap-8">
-      {(categories ?? categoriesMock)?.map((category, i) => {
+      {categories?.map((category) => {
         const isOpen = openCategoryId === category.id && category.children?.length > 0;
 
         return (
@@ -45,12 +44,14 @@ const Categories = () => {
             style={{
               backgroundImage: categories?.length
                 ? `url(${BASE_URL}/uploads/${category.image})`
-                : `url(${category.image})`
+                : `url(${category.image})`,
             }}
             className={`relative flex-1 min-w-[220px] max-[1700px]:w-full bg-no-repeat bg-cover bg-top-left rounded-[${isOpen ? '0' : '20px'}] h-48 max-[2000px]:px-4 px-6 max-[2000px]:py-4 py-6 max-[2000px]:pt-4 pt-8 text-white overflow-${isOpen ? 'visible' : 'hidden'} cursor-pointer`}
             onClick={() => router.push(`/products?categoryId=${category.id}`, { scroll: false })}
           >
-            <div className={`absolute inset-0 rounded-[${isOpen ? '0' : '20px'}] bg-[#838B99]/85`}/>
+            <div
+              className={`absolute inset-0 rounded-[${isOpen ? '0' : '20px'}] bg-[#838B99]/85`}
+            />
             <div className="relative flex flex-col justify-between h-full">
               <h1 className="max-[2000px]:text-xl text-2xl leading-6">{category.name}</h1>
 
@@ -84,7 +85,6 @@ const Categories = () => {
         );
       })}
     </div>
-
   );
 };
 

@@ -29,14 +29,13 @@ const ItemCard = ({ item }: ItemCardProps) => {
         <div className="text-lg font-bold text-center">{item.name}</div>
       </div>
 
-      {
-        item.price ?
-          <span className="text-center text-lg">{item.price} сом</span>
-          :
-          <button className="text-red-500 text-lg font-medium hover:underline cursor-pointer">
-            Договорная
-          </button>
-      }
+      {item.price ? (
+        <span className="text-center text-lg">{item.price} сом</span>
+      ) : (
+        <button className="text-red-500 text-lg font-medium hover:underline cursor-pointer">
+          Договорная
+        </button>
+      )}
     </div>
   );
 };

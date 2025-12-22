@@ -7,3 +7,8 @@ export interface LoginResponse {
   id: number;
   username: string;
 }
+
+export interface MeResponse {
+  loggedIn: true;
+  user: LoginResponse;
+}

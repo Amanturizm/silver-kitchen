@@ -10,7 +10,11 @@ interface DropdownCategoryProps {
   isLastItem?: boolean;
 }
 
-const DropdownCategory: React.FC<DropdownCategoryProps> = ({ category, onClickCategory, isLastItem }) => {
+const DropdownCategory: React.FC<DropdownCategoryProps> = ({
+  category,
+  onClickCategory,
+  isLastItem,
+}) => {
   const router = useRouter();
   const [openCategoryId, setOpenCategoryId] = useState<number | null>(null);
 
@@ -21,7 +25,8 @@ const DropdownCategory: React.FC<DropdownCategoryProps> = ({ category, onClickCa
     router.push(`/products?categoryId=${cat.id}`, { scroll: false });
   };
 
-  const isOpenChildren = openCategoryId === category.id && category.children && category.children.length > 0;
+  const isOpenChildren =
+    openCategoryId === category.id && category.children && category.children.length > 0;
 
   return (
     <div
@@ -58,12 +63,8 @@ const DropdownCategory: React.FC<DropdownCategoryProps> = ({ category, onClickCa
       </div>
 
       {isOpenChildren && (
-        <div
-          className="absolute top-0 left-full mt-0 pl-2 w-full"
-        >
-          <div
-            className="bg-[#215573] rounded-[12px] shadow-lg z-20 animate-fade-down animate-duration-200"
-          >
+        <div className="absolute top-0 left-full mt-0 pl-2 w-full">
+          <div className="bg-[#215573] rounded-[12px] shadow-lg z-20 animate-fade-down animate-duration-200">
             {category.children.map((child, i) => (
               <DropdownCategory
                 key={child.id}

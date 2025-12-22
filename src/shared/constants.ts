@@ -1,8 +1,11 @@
-export const BASE_URL = process.env.NEXT_PUBLIC_TEST_API
+import { TreeNode } from '@/widgets/ui/DynamicForm/configs/types';
 
-export const buildQueryString = <T extends Record<string, string | number | null | undefined>>(paramsObj: T): string => {
+export const BASE_URL = process.env.NEXT_PUBLIC_TEST_API;
+
+export const buildQueryString = <T extends Record<string, string | number | null | undefined>>(
+  paramsObj: T,
+): string => {
   const params = new URLSearchParams();
-  console.log(paramsObj);
 
   Object.entries(paramsObj).forEach(([key, value]) => {
     if (value != null) {
@@ -12,3 +15,42 @@ export const buildQueryString = <T extends Record<string, string | number | null
 
   return params.toString();
 };
+
+export const buildFormData = (body: any) => {
+  const formData = new FormData();
+
+  const appendValue = (key: string, value: any) => {
+    if (value === null || value === undefined) return;
+
+    if (value instanceof File || value instanceof Blob) {
+      formData.append(key, value);
+    } else if (Array.isArray(value)) {
+      value.forEach((v) => appendValue(key, v));
+    } else if (typeof value === 'object') {
+      Object.keys(value).forEach((k) => {
+        appendValue(`${key}[${k}]`, value[k]);
+      });
+    } else {
+      formData.append(key, String(value));
+    }
+  };
+
+  Object.keys(body).forEach((key) => appendValue(key, body[key]));
+
+  return formData;
+};
+
+export function findPath(tree: TreeNode[], targetId: number, path: any[] = []) {
+  for (const node of tree) {
+    const newPath = [...path, node];
+
+    if (node.id === targetId) return newPath;
+
+    if (node.children?.length) {
+      const res = findPath(node.children, targetId, newPath);
+      if (res) return res;
+    }
+  }
+
+  return null;
+}

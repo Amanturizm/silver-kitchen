@@ -1,12 +1,12 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { Path } from '@/shared/path';
 import { defaultBaseQuery } from '@/shared/api';
-import { LoginRequest, LoginResponse } from '@/features/auth/types';
+import { LoginRequest, LoginResponse, MeResponse } from '@/features/auth/types';
 
 export const authApiSlice = createApi({
   reducerPath: 'authApi',
   baseQuery: defaultBaseQuery(),
-  endpoints: builder => ({
+  endpoints: (builder) => ({
     login: builder.mutation<LoginResponse, LoginRequest>({
       query: (body) => ({
         url: Path.Auth.login,
@@ -37,18 +37,22 @@ export const authApiSlice = createApi({
         }
       },
     }),
-    me: builder.query<void, void>({
+    me: builder.query<MeResponse, void>({
       query: () => ({
         url: Path.Auth.me,
         method: 'GET',
-        credentials: 'include'
       }),
+      async onQueryStarted(_, { queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+
+          localStorage.setItem('user', JSON.stringify(data.user));
+        } catch {
+          // nothing
+        }
+      },
     }),
   }),
 });
 
-export const {
-  useLoginMutation,
-  useLogoutMutation,
-  useMeQuery
-} = authApiSlice;
+export const { useLoginMutation, useLogoutMutation, useMeQuery } = authApiSlice;

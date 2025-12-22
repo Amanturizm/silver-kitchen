@@ -5,10 +5,10 @@ const ProfileMenu = dynamic(() => import('@/widgets/layout-admin/ui/profile-menu
 
 const Header = () => {
   return (
-    <header className="h-16 bg-white shadow-md ml-4 rounded-bl-xl flex items-center justify-between px-6">
+    <header className="min-h-16 bg-white shadow-md ml-4 rounded-bl-xl flex items-center justify-between px-6">
       <div className="text-lg font-semibold">Silver Kitchen KG</div>
 
-      <ProfileMenu/>
+      <ProfileMenu />
     </header>
   );
 };

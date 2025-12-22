@@ -2,33 +2,45 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 import { Path } from '@/shared/path';
 import { defaultBaseQuery } from '@/shared/api';
 import { BrandRequest, BrandsItem } from '@/features/brands/types';
+import { buildFormData } from '@/shared/constants';
 
 export const brandsApiSlice = createApi({
   reducerPath: 'brandsApi',
   baseQuery: defaultBaseQuery(),
-  endpoints: builder => ({
+  endpoints: (builder) => ({
     getBrands: builder.query<BrandsItem[], void>({
       query: () => ({
         url: Path.Brands.fetchAll,
-        method: 'GET'
+        method: 'GET',
+      }),
+    }),
+
+    getBrand: builder.query<BrandsItem, string>({
+      query: (id: string) => ({
+        url: Path.Brands.get(id),
+        method: 'GET',
       }),
     }),
 
     createBrand: builder.mutation<BrandsItem, BrandRequest>({
       query: (body) => {
-        const formData = new FormData();
-
-        for (const key of Object.keys(body)) {
-          const value = body[key];
-          if (value !== undefined && value !== null) {
-            formData.append(key, value);
-          }
-        }
+        const formData = buildFormData(body);
 
         return {
           url: Path.Brands.create,
           method: 'POST',
-          credentials: 'include',
+          body: formData,
+        };
+      },
+    }),
+
+    updateBrand: builder.mutation<BrandsItem, BrandRequest>({
+      query: ({ id, ...body }) => {
+        const formData = buildFormData(body);
+
+        return {
+          url: Path.Brands.update(id || ''),
+          method: 'PUT',
           body: formData,
         };
       },
@@ -36,4 +48,9 @@ export const brandsApiSlice = createApi({
   }),
 });
 
-export const { useGetBrandsQuery, useCreateBrandMutation } = brandsApiSlice;
+export const {
+  useGetBrandsQuery,
+  useGetBrandQuery,
+  useCreateBrandMutation,
+  useUpdateBrandMutation,
+} = brandsApiSlice;

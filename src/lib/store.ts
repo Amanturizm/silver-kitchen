@@ -14,7 +14,7 @@ export const makeStore = () => {
       [itemsApiSlice.reducerPath]: itemsApiSlice.reducer,
       [authApiSlice.reducerPath]: authApiSlice.reducer,
     },
-    middleware: getDefaultMiddleware =>
+    middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware()
         .concat(mainApiSlice.middleware)
         .concat(brandsApiSlice.middleware)

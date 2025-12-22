@@ -4,7 +4,7 @@ import { AppLayout } from '@/widgets/layout';
 export default function Home() {
   return (
     <AppLayout>
-      <HomePage/>
+      <HomePage />
     </AppLayout>
   );
 }

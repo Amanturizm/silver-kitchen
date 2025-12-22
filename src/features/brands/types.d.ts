@@ -2,12 +2,13 @@ export interface BrandsItem {
   id: string;
   name: string;
   img: string;
-  desc: string | null;
+  description: string | null;
   active: boolean;
 }
 
 export interface BrandRequest {
+  id?: string;
   name: string;
-  desc?: string;
+  description?: string;
   image: File;
 }

@@ -5,7 +5,7 @@ import ProductsPage from '@/(pages)/products';
 const Page = () => {
   return (
     <AppLayout>
-      <ProductsPage/>
+      <ProductsPage />
     </AppLayout>
   );
 };

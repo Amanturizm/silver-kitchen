@@ -6,11 +6,11 @@ import { GlobalSearchResponse } from '@/features/main/types';
 export const mainApiSlice = createApi({
   reducerPath: 'mainApi',
   baseQuery: defaultBaseQuery(),
-  endpoints: builder => ({
+  endpoints: (builder) => ({
     globalSearch: builder.query<GlobalSearchResponse, string>({
       query: (searchText: string) => ({
         url: Path.Main.globalSearch(searchText),
-        method: 'GET'
+        method: 'GET',
       }),
     }),
   }),

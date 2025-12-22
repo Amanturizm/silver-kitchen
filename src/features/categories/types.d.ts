@@ -7,3 +7,11 @@ export interface CategoriesItem {
   image?: string;
   children: CategoriesItem[];
 }
+
+export interface CategoryRequest {
+  id?: string;
+  name: string;
+  parentId?: string;
+  queue?: string;
+  image?: File;
+}
