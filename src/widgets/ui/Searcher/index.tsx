@@ -71,7 +71,7 @@ const Searcher = () => {
       <form className="flex items-center gap-4" onSubmit={handleSubmit}>
         <div
           onClick={() => inputValue && setIsOpen(true)}
-          className="flex items-center w-full h-[48px] bg-white rounded-[35px] px-5 shadow"
+          className="flex items-center w-full h-[44px] min-[1800px]:h-[48px] bg-white rounded-[35px] px-5 shadow"
         >
           <Image src={searchIcon} alt="search" width={18} height={18} />
           <input
@@ -85,14 +85,14 @@ const Searcher = () => {
 
         <button
           type="submit"
-          className="h-[48px] px-7 bg-red-600 text-white text-lg font-medium rounded-[20px] hover:bg-red-700 transition cursor-pointer"
+          className="h-[44px] min-[1800px]:h-[48px] px-6 min-[1800px]:px-7 bg-red-600 text-white text-md min-[1800px]:text-lg font-medium rounded-[16px] min-[1800px]:rounded-[20px] hover:bg-red-700 transition cursor-pointer"
         >
           Найти
         </button>
       </form>
 
       {isVisible && (
-        <ul className="absolute top-full w-full bg-white rounded-[12px] shadow mt-2 max-h-60 overflow-y-auto">
+        <ul className="absolute top-full left-0 right-0 w-full bg-white rounded-[12px] shadow mt-2 max-h-60 overflow-y-auto z-50">
           {items?.map((item) => (
             <SearchItem
               key={item.id}

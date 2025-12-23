@@ -46,7 +46,7 @@ const Categories = () => {
                 ? `url(${BASE_URL}/uploads/${category.image})`
                 : `url(${category.image})`,
             }}
-            className={`relative flex-1 min-w-[220px] max-[1700px]:w-full bg-no-repeat bg-cover bg-top-left rounded-[${isOpen ? '0' : '20px'}] h-48 max-[2000px]:px-4 px-6 max-[2000px]:py-4 py-6 max-[2000px]:pt-4 pt-8 text-white overflow-${isOpen ? 'visible' : 'hidden'} cursor-pointer`}
+            className={`relative flex-1 min-w-[260px] min-[1800px]:min-w-[220px] max-[1700px]:w-full bg-no-repeat bg-cover bg-top-left rounded-[${isOpen ? '0' : '20px'}] h-48 max-[2000px]:px-4 px-6 max-[2000px]:py-4 py-6 max-[2000px]:pt-4 pt-8 text-white overflow-${isOpen ? 'visible' : 'hidden'} cursor-pointer`}
             onClick={() => {
               router.push(`/products?categoryId=${category.id}`, { scroll: false });
               scrollToMain();

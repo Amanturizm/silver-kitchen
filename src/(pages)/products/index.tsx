@@ -105,8 +105,10 @@ const ProductsPage = () => {
   return (
     <div className="py-16">
       <div className="mt-14 flex items-start">
-        <div className="w-1/5">
-          <CategoryMenu />
+        <div className="w-1/3 min-[1500px]:w-1/5">
+          <div className="min-w-[300px]">
+            <CategoryMenu />
+          </div>
 
           <div className="mt-8 space-y-2">
             <Select
@@ -161,7 +163,7 @@ const ProductsPage = () => {
 
         <div className="px-8 w-full">
           <div
-            className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 [@media(min-width:2300px)]:grid-cols-5 gap-6"
+            className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 [@media(min-width:2300px)]:grid-cols-5 gap-6"
             style={{ height: '100%' }}
           >
             {isLoading ? (

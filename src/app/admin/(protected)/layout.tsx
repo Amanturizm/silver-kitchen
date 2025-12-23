@@ -8,7 +8,7 @@ export default async function ProtectedAdminLayout({ children }: { children: Rea
 
   if (!accessToken) redirect('/admin/login');
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_TEST_API}/api/auth/me`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`, {
     method: 'GET',
     headers: {
       cookie: `access_token=${accessToken}`,

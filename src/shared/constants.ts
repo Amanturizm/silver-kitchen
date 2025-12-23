@@ -1,6 +1,6 @@
 import { TreeNode } from '@/widgets/ui/DynamicForm/configs/types';
 
-export const BASE_URL = process.env.NEXT_PUBLIC_TEST_API;
+export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const buildQueryString = <T extends Record<string, string | number | null | undefined>>(
   paramsObj: T,
