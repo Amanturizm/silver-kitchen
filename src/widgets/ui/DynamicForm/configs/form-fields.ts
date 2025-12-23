@@ -42,15 +42,14 @@ const formFields: Record<string, FieldDef[]> = {
   contacts: buildField([
     ['phoneNumber1', 'Телефонный номер 1', true],
     ['phoneNumber2', 'Телефонный номер 2', false],
-    ['whatsappNumber', 'WhatsApp номер', false],
+    ['whatsappNumber', 'WhatsApp номер', true],
     ['instagramLink', 'Ссылка на инстаграм', false],
     ['lalafoLink', 'Ссылка на Lalafo', false],
     ['email', 'Почта', false],
-    ['addressText', 'Адрес', false],
-    ['city', 'Город', false],
+    ['city', 'Город', true],
     ['street', 'Улица', false],
     ['houseNumber', 'Номер дома', false],
-    ['address', 'Адрес', true],
+    ['address', 'Адрес', false, 'map'],
   ]),
 };
 

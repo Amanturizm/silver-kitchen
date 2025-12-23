@@ -40,13 +40,19 @@ export const buildFormData = (body: any) => {
   return formData;
 };
 
-export function findPath(tree: TreeNode[], targetId: number, path: any[] = []) {
+export function findPath(
+  tree: TreeNode[] | undefined | null,
+  targetId: number,
+  path: TreeNode[] = [],
+) {
+  if (!Array.isArray(tree) || tree.length === 0) return null;
+
   for (const node of tree) {
     const newPath = [...path, node];
 
     if (node.id === targetId) return newPath;
 
-    if (node.children?.length) {
+    if (Array.isArray(node.children) && node.children.length) {
       const res = findPath(node.children, targetId, newPath);
       if (res) return res;
     }
@@ -54,3 +60,10 @@ export function findPath(tree: TreeNode[], targetId: number, path: any[] = []) {
 
   return null;
 }
+
+export const scrollToMain = () => {
+  requestAnimationFrame(() => {
+    const el = document.getElementById('main');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+};

@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { ChevronsUpDown } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { ChevronsUpDown, CircleX } from 'lucide-react';
 
 interface Option {
   value: string | number;
@@ -44,6 +44,11 @@ export const Select = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const clearValue = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    onChange?.('');
+  };
+
   const current = options.find((o) => o.value === value);
 
   return (
@@ -51,21 +56,40 @@ export const Select = ({
       {label && <label className="text-sm">{label}</label>}
 
       <div className="relative">
-        <button
-          type="button"
-          disabled={disabled}
-          onClick={() => setOpen((p) => !p)}
-          className={
-            error ? baseSelectStyle + ' border-red-500 hover:border-red-500' : baseSelectStyle
-          }
-        >
-          <span
-            className={'h-5 flex items-center ' + (current ? 'text-gray-900' : 'text-gray-400')}
+        <div className="relative flex items-center">
+          <button
+            type="button"
+            disabled={disabled}
+            onClick={() => setOpen((p) => !p)}
+            className={
+              error ? baseSelectStyle + ' border-red-500 hover:border-red-500' : baseSelectStyle
+            }
           >
-            {current ? current.label : placeholder || ''}
-          </span>
-          <ChevronsUpDown size={18} className={error ? 'text-red-500' : 'text-gray-600'} />
-        </button>
+            <span
+              className={'h-5 flex items-center ' + (current ? 'text-gray-900' : 'text-gray-400')}
+            >
+              {current ? current.label : placeholder || ''}
+            </span>
+            {!current && (
+              <ChevronsUpDown size={18} className={error ? 'text-red-500' : 'text-gray-600'} />
+            )}
+          </button>
+
+          {current && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                clearValue(e);
+              }}
+              className={`absolute right-2 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-100 rounded-md cursor-pointer transition-colors duration-100 flex items-center justify-center ${
+                error ? 'text-red-500' : 'text-gray-500 hover:text-gray-600'
+              }`}
+            >
+              <CircleX size={20} />
+            </button>
+          )}
+        </div>
 
         {open && (
           <div className="absolute top-full left-0 z-20 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-56 overflow-y-auto">

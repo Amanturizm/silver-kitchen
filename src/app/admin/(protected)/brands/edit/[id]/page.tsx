@@ -31,7 +31,7 @@ const Page = () => {
       await updateBrand(body as BrandRequest).unwrap();
       router.push('/admin/brands');
       toast.success('Бренд успешно изменён');
-    } catch (e) {
+    } catch {
       toast.error('Что-то пошло не так. Попробуйте позже.');
     }
   };

@@ -26,7 +26,7 @@ const Page = () => {
       await createBrand(body as BrandRequest).unwrap();
       router.push('/admin/brands');
       toast.success('Бренд успешно создан');
-    } catch (e) {
+    } catch {
       toast.error('Что-то пошло не так. Попробуйте позже.');
     }
   };

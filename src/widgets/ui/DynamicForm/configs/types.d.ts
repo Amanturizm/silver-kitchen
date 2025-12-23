@@ -18,6 +18,7 @@ export type FieldType =
   | 'select'
   | 'file'
   | 'files'
+  | 'map'
   | 'date';
 
 export interface Option {

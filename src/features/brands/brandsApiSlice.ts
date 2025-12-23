@@ -8,9 +8,9 @@ export const brandsApiSlice = createApi({
   reducerPath: 'brandsApi',
   baseQuery: defaultBaseQuery(),
   endpoints: (builder) => ({
-    getBrands: builder.query<BrandsItem[], void>({
-      query: () => ({
-        url: Path.Brands.fetchAll,
+    getBrands: builder.query<BrandsItem[], { active?: 1 | 0 } | void>({
+      query: (body) => ({
+        url: Path.Brands.fetchAll(body?.active),
         method: 'GET',
       }),
     }),
@@ -20,6 +20,7 @@ export const brandsApiSlice = createApi({
         url: Path.Brands.get(id),
         method: 'GET',
       }),
+      keepUnusedDataFor: 0,
     }),
 
     createBrand: builder.mutation<BrandsItem, BrandRequest>({

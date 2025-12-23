@@ -40,14 +40,14 @@ export const itemsTableConfig: TableConfig<Item> = {
       render: (row) => (row.price !== null ? `${row.price} сом` : '—'),
     },
     {
-      key: 'category_id',
+      key: 'category',
       title: 'Категория',
-      render: (row) => row.category_id ?? '—',
+      render: (row) => row.category_name ?? '—',
     },
     {
-      key: 'brand_id',
+      key: 'brand',
       title: 'Бренд',
-      render: (row) => row.brand_id ?? '—',
+      render: (row) => row.brand_name ?? '—',
     },
   ],
 };

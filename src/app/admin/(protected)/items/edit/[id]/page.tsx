@@ -63,7 +63,7 @@ const Page = () => {
       await updateItem(body as ItemRequest & { id: string }).unwrap();
       router.push('/admin/items');
       toast.success('Товар успешно изменён');
-    } catch (e) {
+    } catch {
       toast.error('Что-то пошло не так. Попробуйте позже.');
     }
   };
@@ -88,7 +88,7 @@ const Page = () => {
     shortDesc: item.short_desc,
     desc: item.desc,
     brandId: item.brand_id + '',
-    images: item.images,
+    images: item.images.map((img) => img.name),
     ...chainDefaults,
   };
 

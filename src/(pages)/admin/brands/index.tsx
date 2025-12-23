@@ -18,6 +18,7 @@ const Brands = () => {
     data = [],
     isLoading,
     isError,
+    refetch,
   } = useGetBrandsQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
@@ -52,8 +53,9 @@ const Brands = () => {
   const handleDelete = async (id: string) => {
     try {
       await deleteBrand(id).unwrap();
+      refetch();
       toast.success('Бренд успешно удалён');
-    } catch (e) {
+    } catch {
       toast.error('Что-то пошло не так. Попробуйте позже.');
     }
   };

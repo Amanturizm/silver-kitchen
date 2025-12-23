@@ -68,7 +68,7 @@ const Page = () => {
       await updateCategory(body).unwrap();
       router.push('/admin/categories?parentId=' + body.parentId);
       toast.success('Категория успешно изменена');
-    } catch (e) {
+    } catch {
       toast.error('Что-то пошло не так. Попробуйте позже.');
     }
   };

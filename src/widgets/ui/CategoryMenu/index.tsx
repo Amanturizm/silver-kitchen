@@ -15,7 +15,7 @@ const CategoryMenu = () => {
 
   const activeCategoryId = Number(searchParams.get('categoryId'));
 
-  const { data: categories } = useGetCategoriesQuery();
+  const { data: categories } = useGetCategoriesQuery({ active: '1' });
 
   const autoOpenCategoryId = useMemo(() => {
     if (!categories || !activeCategoryId) return null;
@@ -32,7 +32,12 @@ const CategoryMenu = () => {
   const resolvedOpenCategoryId = openCategoryId ?? autoOpenCategoryId;
 
   const handleClick = (category: CategoriesItem) => {
-    router.push(`/products?categoryId=${category.id}`, { scroll: false });
+    const params = new URLSearchParams(window.location.search);
+
+    params.set('categoryId', String(category.id));
+    params.delete('page');
+
+    router.push(`/products?${params.toString()}`, { scroll: false });
   };
 
   const openDropdown = (category: CategoriesItem) => {

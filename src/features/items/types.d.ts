@@ -4,6 +4,8 @@ export interface Item {
   price: number | null;
   short_desc?: string | null;
   desc?: string | null;
+  category_name: string | null;
+  brand_name: string | null;
   category_id: number | null;
   brand_id: number | null;
   created_at?: string | null;

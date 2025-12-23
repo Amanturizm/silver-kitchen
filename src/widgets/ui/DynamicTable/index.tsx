@@ -122,21 +122,21 @@ const DynamicTable = <T,>({ queryResult, config, deleteQuery }: Props<T>) => {
                           className="w-full text-left px-3 py-2 text-md hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
                           onClick={(e) => {
                             e.stopPropagation();
-                            router.push(`/admin/${config.pageName}/edit/${rowKey}`);
-                          }}
-                        >
-                          <Pencil size={16} />
-                          Редактировать
-                        </button>
-                        <button
-                          className="w-full text-left px-3 py-2 text-md hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
-                          onClick={(e) => {
-                            e.stopPropagation();
                             router.push(`/admin/${config.pageName}/${rowKey}`);
                           }}
                         >
                           <View size={16} />
                           Подробный просмотр
+                        </button>
+                        <button
+                          className="w-full text-left px-3 py-2 text-md hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            router.push(`/admin/${config.pageName}/edit/${rowKey}`);
+                          }}
+                        >
+                          <Pencil size={16} />
+                          Редактировать
                         </button>
                         {deleteQuery && (
                           <button

@@ -25,6 +25,7 @@ export const typeMap: Record<FieldType, (required?: boolean, label?: string) => 
   number: createSchema(yup.number),
   select: createSchema(yup.mixed),
   date: createSchema(yup.date),
+  map: createSchema(yup.object),
   file: (required?: boolean) =>
     required
       ? yup.mixed<File[]>().test('required', 'Выберите файл', (v) => !!v && v.length > 0)

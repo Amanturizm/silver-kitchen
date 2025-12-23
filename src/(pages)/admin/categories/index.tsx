@@ -46,8 +46,9 @@ const Categories = () => {
   const handleDelete = async (id: string) => {
     try {
       await deleteCategory(id).unwrap();
+      queryResult.refetch();
       toast.success('Категория успешно удалена');
-    } catch (e) {
+    } catch {
       toast.error('Что-то пошло не так. Попробуйте позже.');
     }
   };

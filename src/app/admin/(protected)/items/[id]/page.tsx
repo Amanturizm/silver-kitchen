@@ -3,9 +3,9 @@
 import React from 'react';
 import { useParams } from 'next/navigation';
 import { DynamicDetailView } from '@/widgets/ui/DynamicDetailView';
-import { BASE_URL } from '@/shared/constants';
 import { useGetItemQuery } from '@/features/items/itemsApiSlice';
 import { Loading, NotFound } from '@/widgets/ui/Message';
+import ImagesGallary from '@/widgets/ui/ImagesGallary';
 
 const Page = () => {
   const params = useParams();
@@ -25,30 +25,51 @@ const Page = () => {
       ) : !item ? (
         <NotFound message="Товар не найден" />
       ) : (
-        <DynamicDetailView
-          data={values}
-          config={{
-            columns: [
-              { key: 'name', title: 'Название' },
-              { key: 'price', title: 'Цена', render: (row) => `${row?.price} сом` },
-              { key: 'short_desc', title: 'Краткое описание' },
-              { key: 'desc', title: 'Описание' },
-              {
-                key: 'images',
-                title: 'Изображение',
-                render: (row) =>
-                  row?.images.map((img) => (
-                    <img
-                      key={img.name}
-                      src={`${BASE_URL}/uploads${img.path}/${img.name}`}
-                      className="w-24 h-24 object-cover rounded"
-                      alt=""
-                    />
-                  )),
-              },
-            ],
-          }}
-        />
+        values && (
+          <DynamicDetailView
+            data={values}
+            config={{
+              columns: [
+                { key: 'name', title: 'Название' },
+
+                {
+                  key: 'price',
+                  title: 'Цена',
+                  format: (v) => `${v} сом`,
+                  visible: (d) => !!d.price,
+                },
+
+                { key: 'category_name', title: 'Категория' },
+                { key: 'brand_name', title: 'Бренд' },
+
+                {
+                  key: 'short_desc',
+                  title: 'Краткое описание:',
+                  variant: 'block',
+                },
+
+                {
+                  key: 'desc',
+                  title: 'Описание:',
+                  variant: 'block',
+                },
+
+                {
+                  key: 'images',
+                  title: 'Изображения',
+                  variant: 'block',
+                  value: (d) =>
+                    d.images.length > 0 && (
+                      <div className="w-full lg:w-[520px] xl:w-[600px] 2xl:w-[640px]">
+                        <ImagesGallary images={d.images} />
+                      </div>
+                    ),
+                  emptyText: 'Нет изображений',
+                },
+              ],
+            }}
+          />
+        )
       )}
     </div>
   );

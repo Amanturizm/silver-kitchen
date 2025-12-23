@@ -3,8 +3,16 @@ import Image from 'next/image';
 import logoFooterImg from '@/shared/assets/images/logo-footer.png';
 import phoneIcon from '@/shared/assets/icons/phone.svg';
 import whatsappIcon from '@/shared/assets/icons/whatsapp.svg';
+import instagramIcon from '@/shared/assets/icons/instagram.png';
+import lalafoIcon from '@/shared/assets/icons/lalafo.png';
+import { useGetContactsQuery } from '@/features/contacts/contactsApiSlice';
+import Link from 'next/link';
 
 const Footer = () => {
+  const { data: contacts } = useGetContactsQuery({ main: 'true' });
+
+  const contact = contacts?.[0];
+
   return (
     <footer className="px-16 bg-[#215573] text-[#DEDEDE] py-20 flex gap-10 justify-between flex-wrap">
       <div>
@@ -28,32 +36,85 @@ const Footer = () => {
       </div>
 
       <ul className="text-xl flex flex-col gap-2">
-        <li>Главная</li>
-        <li>Продукция</li>
-        <li>О нас</li>
-        <li>Контакты</li>
+        <li>
+          <Link href="/#main">Главная</Link>
+        </li>
+        <li>
+          <Link href="/products#main">Продукция</Link>
+        </li>
+        <li>
+          <Link href="/about#main">О нас</Link>
+        </li>
+        <li>
+          <Link href="/contacts#main">Контакты</Link>
+        </li>
       </ul>
 
       <ul className="text-xl flex flex-col gap-2">
-        <li>silver@gmail.com</li>
-        <li>Адрес магазина</li>
+        <li>{contact?.email}</li>
+        <li>Адрес магазина:</li>
+        <li>{contact?.address_text}</li>
+        <li className="flex items-center gap-4 mt-2">
+          <a href={contact?.instagram_link} target="_blank" rel="noopener noreferrer">
+            <Image
+              src={instagramIcon}
+              alt="instagram-icon"
+              className="rounded-[6px] cursor-pointer"
+              width={34}
+              height={34}
+            />
+          </a>
+
+          <a href={contact?.lalafo_link} target="_blank" rel="noopener noreferrer">
+            <Image
+              src={lalafoIcon}
+              alt="lalafo-icon"
+              className="rounded-[6px] cursor-pointer"
+              width={34}
+              height={34}
+              unoptimized
+            />
+          </a>
+        </li>
       </ul>
 
       <div className="flex flex-col gap-10 text-lg font-sans font-medium">
-        <div className="flex items-center gap-4">
-          <Image src={phoneIcon} alt="phone-icon" className="rounded-2xl" />
-          <div>
-            <h6>+996 707 707 707</h6>
-            <h6>+996 707 707 707</h6>
-          </div>
-        </div>
+        {contact && (
+          <>
+            <div className="flex items-center gap-4">
+              <Image src={phoneIcon} alt="phone-icon" className="rounded-2xl" />
+              <div>
+                {contact.phone_number_1 && (
+                  <h6>
+                    <a href={`tel:${contact.phone_number_1.replace(/\D/g, '')}`}>
+                      {contact.phone_number_1}
+                    </a>
+                  </h6>
+                )}
+                {contact.phone_number_2 && (
+                  <h6>
+                    <a href={`tel:${contact.phone_number_2.replace(/\D/g, '')}`}>
+                      {contact.phone_number_2}
+                    </a>
+                  </h6>
+                )}
+              </div>
+            </div>
 
-        <div className="flex items-center gap-4">
-          <Image src={whatsappIcon} alt="whatsapp-icon" className="rounded-2xl" />
-          <div>
-            <h6>+996 707 707 707</h6>
-          </div>
-        </div>
+            <a
+              href={`https://wa.me/${contact.whatsapp_number.replace(/\D/g, '')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="flex items-center gap-4">
+                <Image src={whatsappIcon} alt="whatsapp-icon" className="rounded-2xl" />
+                <div>
+                  <h6>{contact.whatsapp_number}</h6>
+                </div>
+              </div>
+            </a>
+          </>
+        )}
       </div>
     </footer>
   );

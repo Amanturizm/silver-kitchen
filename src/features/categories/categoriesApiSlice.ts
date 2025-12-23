@@ -8,9 +8,9 @@ export const categoriesApiSlice = createApi({
   reducerPath: 'categoriesApi',
   baseQuery: defaultBaseQuery(),
   endpoints: (builder) => ({
-    getCategories: builder.query<CategoriesItem[], number | void>({
-      query: (parentId) => ({
-        url: Path.Categories.search(parentId || null),
+    getCategories: builder.query<CategoriesItem[], { parentId?: number; active: string } | void>({
+      query: (body) => ({
+        url: Path.Categories.search(body || null),
         method: 'GET',
       }),
     }),
@@ -20,6 +20,7 @@ export const categoriesApiSlice = createApi({
         url: Path.Categories.get(id),
         method: 'GET',
       }),
+      keepUnusedDataFor: 0,
     }),
 
     createCategory: builder.mutation<CategoriesItem, CategoryRequest>({

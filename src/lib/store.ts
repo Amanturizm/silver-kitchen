@@ -4,6 +4,7 @@ import { categoriesApiSlice } from '@/features/categories/categoriesApiSlice';
 import { itemsApiSlice } from '@/features/items/itemsApiSlice';
 import { mainApiSlice } from '@/features/main/mainApiSlice';
 import { authApiSlice } from '@/features/auth/authApiSlice';
+import { contactsApiSlice } from '@/features/contacts/contactsApiSlice';
 
 export const makeStore = () => {
   return configureStore({
@@ -13,6 +14,7 @@ export const makeStore = () => {
       [categoriesApiSlice.reducerPath]: categoriesApiSlice.reducer,
       [itemsApiSlice.reducerPath]: itemsApiSlice.reducer,
       [authApiSlice.reducerPath]: authApiSlice.reducer,
+      [contactsApiSlice.reducerPath]: contactsApiSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware()
@@ -20,7 +22,8 @@ export const makeStore = () => {
         .concat(brandsApiSlice.middleware)
         .concat(categoriesApiSlice.middleware)
         .concat(itemsApiSlice.middleware)
-        .concat(authApiSlice.middleware),
+        .concat(authApiSlice.middleware)
+        .concat(contactsApiSlice.middleware),
   });
 };
 

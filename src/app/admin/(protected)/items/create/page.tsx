@@ -50,7 +50,7 @@ const Page = () => {
       await createItem(body as ItemRequest).unwrap();
       router.push('/admin/items');
       toast.success('Товар успешно создан');
-    } catch (e) {
+    } catch {
       toast.error('Что-то пошло не так. Попробуйте позже.');
     }
   };

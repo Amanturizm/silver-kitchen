@@ -26,27 +26,37 @@ const Page = () => {
       ) : !category ? (
         <NotFound message="Категория не найдена" />
       ) : (
-        <DynamicDetailView
-          data={values}
-          config={{
-            columns: [
-              { key: 'name', title: 'Название' },
-              { key: 'queue', title: 'Очередь' },
-              { key: 'active', title: 'Статус' },
-              {
-                key: 'image',
-                title: 'Изображение',
-                render: (row) => (
-                  <img
-                    src={BASE_URL + 'upload/' + row?.image}
-                    className="w-24 h-24 object-cover rounded"
-                    alt=""
-                  />
-                ),
-              },
-            ],
-          }}
-        />
+        values && (
+          <DynamicDetailView
+            data={values}
+            config={{
+              columns: [
+                { key: 'name', title: 'Название' },
+                { key: 'queue', title: 'Очередь' },
+
+                {
+                  key: 'active',
+                  title: 'Статус',
+                  format: (v) => (v ? 'Активен' : 'Неактивен'),
+                },
+
+                {
+                  key: 'image',
+                  title: 'Изображение',
+                  value: (d) => (
+                    <img
+                      src={`${BASE_URL}/uploads/${d.image}`}
+                      className="w-full h-60 object-contain"
+                      alt=""
+                    />
+                  ),
+                  visible: (d) => !!d.image,
+                  emptyText: 'Нет изображения',
+                },
+              ],
+            }}
+          />
+        )
       )}
     </div>
   );

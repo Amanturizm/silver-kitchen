@@ -39,7 +39,7 @@ const Page = () => {
       await createCategory(body).unwrap();
       router.push('/admin/categories?parentId=' + body.parentId);
       toast.success('Категория успешно создана');
-    } catch (e) {
+    } catch {
       toast.error('Что-то пошло не так. Попробуйте позже.');
     }
   };

@@ -1,4 +1,6 @@
+'use client';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Item } from '@/features/items/types';
 import { BASE_URL } from '@/shared/constants';
 
@@ -7,10 +9,18 @@ interface ItemCardProps {
 }
 
 const ItemCard = ({ item }: ItemCardProps) => {
+  const router = useRouter();
   const image = item.images?.[0];
 
+  const handleClick = () => {
+    router.push(`/products/${item.id}`);
+  };
+
   return (
-    <div className="bg-white rounded-[16px] p-4 flex flex-col justify-between gap-2 w-full max-w-[400px]">
+    <div
+      onClick={handleClick}
+      className="bg-white rounded-[16px] p-4 flex flex-col justify-between gap-2 w-full max-w-[400px] cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.15)] transition-shadow"
+    >
       <div>
         <div className="relative w-full">
           {image && (

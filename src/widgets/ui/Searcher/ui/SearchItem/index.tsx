@@ -1,5 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 import { useRouter } from 'next/navigation';
+import { scrollToMain } from '@/shared/constants';
 
 interface Props extends PropsWithChildren {
   to: string;
@@ -14,10 +15,7 @@ const SearchItem: React.FC<Props> = ({ to, children }) => {
       onClick={() => {
         router.push(to, { scroll: false });
 
-        setTimeout(() => {
-          const el = document.getElementById(`products`);
-          el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100);
+        scrollToMain();
       }}
     >
       {children}

@@ -12,7 +12,7 @@ interface Props {
 
 export const NumberInput = ({ label, value, placeholder, disabled, onChange, error }: Props) => {
   const baseInput =
-    'w-full rounded-md bg-white px-3 py-2 text-sm outline-none border border-gray-300 focus:border-blue-500 disabled:bg-gray-100';
+    'w-full rounded-md bg-white px-3 py-2 text-sm font-sans outline-none border border-gray-300 focus:border-blue-500 disabled:bg-gray-100';
 
   return (
     <div className="flex flex-col gap-1">

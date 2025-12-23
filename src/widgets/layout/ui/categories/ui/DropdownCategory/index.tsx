@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import chevronIcon from '@/shared/assets/icons/chevron.svg';
+import { scrollToMain } from '@/shared/constants';
 
 interface DropdownCategoryProps {
   category: CategoriesItem;
@@ -23,6 +24,7 @@ const DropdownCategory: React.FC<DropdownCategoryProps> = ({
     onClickCategory?.();
     setOpenCategoryId(null);
     router.push(`/products?categoryId=${cat.id}`, { scroll: false });
+    scrollToMain();
   };
 
   const isOpenChildren =

@@ -39,7 +39,7 @@ const Items = () => {
     return nextFilter;
   }, [searchParams]);
 
-  const { data, isLoading } = useGetItemsQuery(filter, {
+  const { data, isLoading, refetch } = useGetItemsQuery(filter, {
     refetchOnMountOrArgChange: true,
   });
 
@@ -54,8 +54,9 @@ const Items = () => {
   const handleDelete = async (id: string) => {
     try {
       await deleteItem(id).unwrap();
+      refetch();
       toast.success('Товар успешно удалён');
-    } catch (e) {
+    } catch {
       toast.error('Что-то пошло не так. Попробуйте позже.');
     }
   };

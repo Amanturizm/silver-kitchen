@@ -31,7 +31,12 @@ const ChildMenu: React.FC<Props> = ({ child, activeCategoryId, level = 1 }) => {
   const isOpen = isManuallyOpen ?? autoOpenChild;
 
   const handleClick = () => {
-    router.push(`/products?categoryId=${child.id}`, { scroll: false });
+    const params = new URLSearchParams(window.location.search);
+
+    params.set('categoryId', String(child.id));
+    params.delete('page');
+
+    router.push(`/products?${params.toString()}`, { scroll: false });
   };
 
   const openDropdown = () => {

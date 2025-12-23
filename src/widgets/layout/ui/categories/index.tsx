@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import DropdownCategory from '@/widgets/layout/ui/categories/ui/DropdownCategory';
 import { useGetCategoriesQuery } from '@/features/categories/categoriesApiSlice';
-import { BASE_URL } from '@/shared/constants';
+import { BASE_URL, scrollToMain } from '@/shared/constants';
 
 const Categories = () => {
-  const { data: categories } = useGetCategoriesQuery();
+  const { data: categories } = useGetCategoriesQuery({ active: '1' });
 
   const router = useRouter();
   const [openCategoryId, setOpenCategoryId] = useState(null);
@@ -47,7 +47,10 @@ const Categories = () => {
                 : `url(${category.image})`,
             }}
             className={`relative flex-1 min-w-[220px] max-[1700px]:w-full bg-no-repeat bg-cover bg-top-left rounded-[${isOpen ? '0' : '20px'}] h-48 max-[2000px]:px-4 px-6 max-[2000px]:py-4 py-6 max-[2000px]:pt-4 pt-8 text-white overflow-${isOpen ? 'visible' : 'hidden'} cursor-pointer`}
-            onClick={() => router.push(`/products?categoryId=${category.id}`, { scroll: false })}
+            onClick={() => {
+              router.push(`/products?categoryId=${category.id}`, { scroll: false });
+              scrollToMain();
+            }}
           >
             <div
               className={`absolute inset-0 rounded-[${isOpen ? '0' : '20px'}] bg-[#838B99]/85`}

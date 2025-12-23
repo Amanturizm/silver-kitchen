@@ -1,6 +1,7 @@
 'use client';
 
 import { Controller } from 'react-hook-form';
+import dynamic from 'next/dynamic';
 import { FieldType } from '@/widgets/ui/DynamicForm/configs/types';
 import { Select } from '@/widgets/ui/InputField/ui/Select';
 import { TextInput } from '@/widgets/ui/InputField/ui/TextInput';
@@ -8,6 +9,13 @@ import { NumberInput } from '@/widgets/ui/InputField/ui/NumberInput';
 import { Textarea } from '@/widgets/ui/InputField/ui/Textarea';
 import { PasswordInput } from '@/widgets/ui/InputField/ui/PasswordInput';
 import { FileInput } from '@/widgets/ui/InputField/ui/FileInput';
+
+const MapInput = dynamic(
+  () => import('@/widgets/ui/InputField/ui/MapInput').then((mod) => mod.MapInput),
+  {
+    ssr: false,
+  },
+);
 
 interface Option {
   value: string | number;
@@ -69,6 +77,8 @@ export const InputField = ({
       case 'file':
       case 'files':
         return <FileInput {...commonProps} />;
+      case 'map':
+        return <MapInput {...commonProps} />;
       case 'select':
         return <Select {...commonProps} />;
       default:

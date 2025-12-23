@@ -1,5 +1,5 @@
-import { ItemsFilter } from '@/features/items/types';
 import { buildQueryString } from '@/shared/constants';
+import { ItemsFilter } from '@/features/items/types';
 
 const baseUrl = (endpoint: string) => `api/${endpoint}`;
 
@@ -11,7 +11,7 @@ export class Path {
   };
 
   static Brands = class {
-    static fetchAll = baseUrl('brands');
+    static fetchAll = (active?: number) => baseUrl('brands?active=' + (active || ''));
     static create = baseUrl('brands');
     static get = (id: string) => baseUrl(`brands/${id}`);
     static delete = (id: string) => baseUrl(`brands/${id}`);
@@ -19,7 +19,8 @@ export class Path {
   };
 
   static Categories = class {
-    static search = (parentId: number | null) => baseUrl(`categories/search?parentId=${parentId}`);
+    static search = (params: { parentId?: number; active: string } | null) =>
+      baseUrl(`categories/search?${params ? buildQueryString(params) : ''}`);
     static create = baseUrl('categories');
     static get = (id: string) => baseUrl(`categories/${id}`);
     static delete = (id: string) => baseUrl(`categories/${id}`);
@@ -36,7 +37,7 @@ export class Path {
   };
 
   static Contacts = class {
-    static fetchAll = baseUrl(`contacts`);
+    static fetchAll = (main?: string) => baseUrl('contacts?main=' + (main || ''));
     static create = baseUrl('contacts');
     static get = (id: string) => baseUrl(`contacts/${id}`);
     static delete = (id: string) => baseUrl(`contacts/${id}`);

@@ -26,17 +26,27 @@ const Page = () => {
           config={{
             columns: [
               { key: 'name', title: 'Название' },
-              { key: 'description', title: 'Описание' },
+
+              {
+                key: 'description',
+                title: 'Описание',
+                variant: 'block',
+              },
+
               {
                 key: 'img',
                 title: 'Изображение',
-                render: (row) => (
-                  <img
-                    src={BASE_URL + 'upload/' + row.img}
-                    className="w-24 h-24 object-cover rounded"
-                    alt=""
-                  />
+                value: (d) => (
+                  <div className="shadow-[0_0_10px_0_rgba(34,60,80,0.16)] border border-slate-200 rounded-lg overflow-hidden">
+                    <img
+                      src={`${BASE_URL}/uploads/${d.img}`}
+                      className="w-full h-60 object-contain rounded"
+                      alt=""
+                    />
+                  </div>
                 ),
+                visible: (d) => !!d.img,
+                emptyText: 'Нет изображения',
               },
             ],
           }}

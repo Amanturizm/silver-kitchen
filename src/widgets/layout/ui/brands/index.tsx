@@ -7,7 +7,7 @@ import { BASE_URL } from '@/shared/constants';
 import arrowLeftIcon from '@/shared/assets/icons/arrow-left.svg';
 
 const Brands = () => {
-  const { data: brands } = useGetBrandsQuery();
+  const { data: brands } = useGetBrandsQuery({ active: 1 });
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const getItemsPerView = () => {

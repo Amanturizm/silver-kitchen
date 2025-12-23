@@ -1,23 +1,34 @@
 'use client';
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import logoImg from '@/shared/assets/images/logo.png';
 import phoneIcon from '@/shared/assets/icons/phone.svg';
 import whatsappIcon from '@/shared/assets/icons/whatsapp.svg';
 import Searcher from '@/widgets/ui/Searcher';
+import { useGetContactsQuery } from '@/features/contacts/contactsApiSlice';
 
 const linkBase = 'text-xl font-medium';
 const getNavClass = (isActive: boolean) => `${linkBase} ${isActive ? 'text-black' : 'text-white'}`;
 
 const Header = () => {
+  const router = useRouter();
   const pathname = usePathname();
+  const { data: contacts } = useGetContactsQuery({ main: 'true' });
+
+  const contact = contacts?.[0];
 
   return (
     <header className="container relative mt-7 h-[33vw] bg-[url('@/shared/assets/images/header-background.png')] bg-no-repeat bg-cover bg-top-left rounded-[25px]">
       <div className="flex items-center justify-between max-w-2/4 h-[80px] pl-8 pt-8">
-        <Image src={logoImg} alt="logo-img" height={80} />
+        <Image
+          src={logoImg}
+          alt="logo-img"
+          height={80}
+          className="cursor-pointer"
+          onClick={() => router.push('/')}
+        />
 
         <nav className="flex items-center justify-between gap-10">
           <Link href="/" className={getNavClass(pathname === '/')}>
@@ -38,20 +49,42 @@ const Header = () => {
         </nav>
 
         <div className="absolute right-40 top-6 flex items-center gap-12 font-sans font-bold text-lg">
-          <div className="flex items-center gap-4">
-            <Image src={phoneIcon} alt="phone-icon" className="rounded-2xl" />
-            <div>
-              <h6>+996 707 707 707</h6>
-              <h6>+996 707 707 707</h6>
-            </div>
-          </div>
+          {contact && (
+            <>
+              <div className="flex items-center gap-4">
+                <Image src={phoneIcon} alt="phone-icon" className="rounded-2xl" />
+                <div>
+                  {contact.phone_number_1 && (
+                    <h6>
+                      <a href={`tel:${contact.phone_number_1.replace(/\D/g, '')}`}>
+                        {contact.phone_number_1}
+                      </a>
+                    </h6>
+                  )}
+                  {contact.phone_number_2 && (
+                    <h6>
+                      <a href={`tel:${contact.phone_number_2.replace(/\D/g, '')}`}>
+                        {contact.phone_number_2}
+                      </a>
+                    </h6>
+                  )}
+                </div>
+              </div>
 
-          <div className="flex items-center gap-4">
-            <Image src={whatsappIcon} alt="whatsapp-icon" className="rounded-2xl" />
-            <div>
-              <h6>+996 707 707 707</h6>
-            </div>
-          </div>
+              <a
+                href={`https://wa.me/${contact.whatsapp_number.replace(/\D/g, '')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="flex items-center gap-4">
+                  <Image src={whatsappIcon} alt="whatsapp-icon" className="rounded-2xl" />
+                  <div>
+                    <h6>{contact.whatsapp_number}</h6>
+                  </div>
+                </div>
+              </a>
+            </>
+          )}
         </div>
       </div>
 

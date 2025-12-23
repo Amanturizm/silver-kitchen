@@ -20,6 +20,7 @@ export const itemsApiSlice = createApi({
         url: Path.Items.get(id),
         method: 'GET',
       }),
+      keepUnusedDataFor: 0,
     }),
 
     createItem: builder.mutation<Item, ItemRequest>({
