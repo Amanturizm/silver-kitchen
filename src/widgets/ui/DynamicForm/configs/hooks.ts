@@ -26,9 +26,20 @@ export const useDynamicChainSelect = (
   return useMemo(() => {
     if (!chainNodes || !chainNodes.length) return fields;
 
-    if (isCategoriesChains || chainNodes[chainNodes.length - 1].children?.length) {
-      chainNodes.push({ id: 0, name: '', children: chainNodes[chainNodes.length - 1].children });
-    }
+    const lastNode = chainNodes[chainNodes.length - 1];
+
+    const normalizedChainNodes =
+      Array.isArray(chainNodes) && isCategoriesChains && lastNode?.children?.length
+        ? [
+            ...chainNodes,
+            {
+              id: 0,
+              name: '',
+              children: lastNode?.children ?? [],
+            },
+          ]
+        : chainNodes;
+
     return fields.flatMap((f) => {
       if (f.name !== targetFieldName) return f;
 
@@ -36,17 +47,20 @@ export const useDynamicChainSelect = (
         return {
           ...f,
           name: targetFieldName,
-          options: chainNodes.map((n) => ({ label: n.name, value: String(n.id) })),
+          options: normalizedChainNodes.map((n) => ({
+            label: n.name,
+            value: String(n.id),
+          })),
           isDynamicChain: true,
-          getNextOptions: buildNextOptions(chainNodes),
+          getNextOptions: buildNextOptions(normalizedChainNodes),
         };
       }
 
-      return chainNodes.map((node, i) => {
+      return normalizedChainNodes.map((node, i) => {
         const fieldName = i === 0 ? targetFieldName : `${targetFieldName}_${i}`;
         const level = getLevel(fieldName);
         const baseLabel = f.label.replace(/уровень\s*\d+$/, '').trim();
-        const siblings = i === 0 ? rootTree : chainNodes[i - 1].children || [];
+        const siblings = i === 0 ? rootTree : (normalizedChainNodes[i - 1]?.children ?? []);
 
         return {
           ...f,
@@ -54,7 +68,10 @@ export const useDynamicChainSelect = (
           label: level > 0 ? `${baseLabel} уровень ${level}` : baseLabel,
           options: siblings
             .filter((c) => !isCategoriesChains || String(c.id) !== categoryId)
-            .map((n) => ({ label: n.name, value: String(n.id) })),
+            .map((n) => ({
+              label: n.name,
+              value: String(n.id),
+            })),
           isDynamicChain: true,
           getNextOptions: buildNextOptions(rootTree, categoryId),
         };

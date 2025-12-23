@@ -13,7 +13,9 @@ const CategoryMenu = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const activeCategoryId = Number(searchParams.get('categoryId'));
+  const activeCategoryId = searchParams.get('categoryId')
+    ? Number(searchParams.get('categoryId'))
+    : null;
 
   const { data: categories } = useGetCategoriesQuery({ active: '1' });
 
@@ -45,58 +47,60 @@ const CategoryMenu = () => {
   };
 
   return (
-    categories &&
-    categories.length && (
-      <div className="py-5 bg-[#215573] rounded-[12px] shadow-lg text-white">
-        {categories?.map((category) => {
-          const isOpen = resolvedOpenCategoryId === category.id;
-          const isActive = activeCategoryId === category.id;
+    <div className="py-5 bg-[#215573] rounded-[12px] shadow-lg text-white">
+      {!categories || !categories.length
+        ? null
+        : categories.map((category) => {
+            const isOpen = resolvedOpenCategoryId === category.id;
+            const isActive = activeCategoryId === category.id;
 
-          return (
-            <div key={category.id}>
-              <div
-                onClick={() => handleClick(category)}
-                className={`
+            return (
+              <div key={category.id}>
+                <div
+                  onClick={() => handleClick(category)}
+                  className={`
                 px-4 py-2 cursor-pointer
                 flex justify-between items-center rounded-[4px] mb-0.5
                 ${isActive ? 'bg-[#347EA8]' : 'bg-[#2e5f7b]'}
                 hover:bg-[#347EA8]
               `}
-              >
-                <span>{category.name}</span>
+                >
+                  <span>{category.name}</span>
 
-                {category.children?.length > 0 && (
-                  <Image
-                    src={chevronIcon}
-                    alt=""
-                    width={20}
-                    height={20}
-                    className={`
+                  {category.children?.length > 0 && (
+                    <Image
+                      src={chevronIcon}
+                      alt=""
+                      width={20}
+                      height={20}
+                      className={`
                     transition-transform
                     ${isOpen ? 'rotate-90' : ''}
                   `}
-                    onClick={() => openDropdown(category)}
-                  />
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openDropdown(category);
+                      }}
+                    />
+                  )}
+                </div>
+
+                {isOpen && activeCategoryId && (
+                  <div>
+                    {category.children.map((child) => (
+                      <ChildMenu
+                        key={child.id}
+                        child={child}
+                        activeCategoryId={activeCategoryId}
+                        level={2}
+                      />
+                    ))}
+                  </div>
                 )}
               </div>
-
-              {isOpen && (
-                <div>
-                  {category.children.map((child) => (
-                    <ChildMenu
-                      key={child.id}
-                      child={child}
-                      activeCategoryId={activeCategoryId}
-                      level={2}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-    )
+            );
+          })}
+    </div>
   );
 };
 

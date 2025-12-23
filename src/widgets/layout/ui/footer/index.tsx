@@ -6,12 +6,19 @@ import whatsappIcon from '@/shared/assets/icons/whatsapp.svg';
 import instagramIcon from '@/shared/assets/icons/instagram.png';
 import lalafoIcon from '@/shared/assets/icons/lalafo.png';
 import { useGetContactsQuery } from '@/features/contacts/contactsApiSlice';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { scrollToMain } from '@/shared/constants';
 
 const Footer = () => {
+  const router = useRouter();
   const { data: contacts } = useGetContactsQuery({ main: 'true' });
 
   const contact = contacts?.[0];
+
+  const replaceRoute = (route: string) => {
+    router.replace(route, { scroll: false });
+    scrollToMain();
+  };
 
   return (
     <footer className="px-16 bg-[#215573] text-[#DEDEDE] py-20 flex gap-10 justify-between flex-wrap">
@@ -36,17 +43,17 @@ const Footer = () => {
       </div>
 
       <ul className="text-xl flex flex-col gap-2">
-        <li>
-          <Link href="/#main">Главная</Link>
+        <li className="cursor-pointer" onClick={() => replaceRoute('/')}>
+          Главная
         </li>
-        <li>
-          <Link href="/products#main">Продукция</Link>
+        <li className="cursor-pointer" onClick={() => replaceRoute('/products')}>
+          Продукция
         </li>
-        <li>
-          <Link href="/about#main">О нас</Link>
+        <li className="cursor-pointer" onClick={() => replaceRoute('/about')}>
+          О нас
         </li>
-        <li>
-          <Link href="/contacts#main">Контакты</Link>
+        <li className="cursor-pointer" onClick={() => replaceRoute('/contacts')}>
+          Контакты
         </li>
       </ul>
 

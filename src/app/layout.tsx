@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={raleway.className} data-scroll-behavior="none">
+    <html lang="en" className={raleway.className}>
       <body>
         <StoreProvider>{children}</StoreProvider>
       </body>

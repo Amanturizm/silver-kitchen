@@ -39,8 +39,15 @@ export const MapViewer: React.FC<MapViewerProps> = ({
   height = 400,
   zoom = 16,
 }) => {
+  const mapRef = React.useRef<L.Map>(null);
   const latNum = Number(latitude);
   const lngNum = Number(longitude);
+
+  useEffect(() => {
+    if (mapRef.current) {
+      mapRef.current.invalidateSize();
+    }
+  }, []);
 
   if (isNaN(latNum) || isNaN(lngNum)) {
     return <div>Координаты не указаны</div>;
@@ -48,6 +55,7 @@ export const MapViewer: React.FC<MapViewerProps> = ({
 
   return (
     <MapContainer
+      ref={mapRef}
       key={`${latNum}-${lngNum}`}
       center={[latNum, lngNum]}
       zoom={zoom}

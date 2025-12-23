@@ -65,7 +65,10 @@ const ChildMenu: React.FC<Props> = ({ child, activeCategoryId, level = 1 }) => {
             width={20}
             height={20}
             className={`transition-transform ${isOpen ? 'rotate-90' : ''}`}
-            onClick={openDropdown}
+            onClick={(e) => {
+              e.stopPropagation();
+              openDropdown();
+            }}
           />
         )}
       </div>

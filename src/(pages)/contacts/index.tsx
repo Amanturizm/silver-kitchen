@@ -141,18 +141,16 @@ const ContactsPage = () => {
           )}
         </div>
 
-        {/*{currentContact?.lat && currentContact?.lng && (*/}
-        <div className="flex-1 border rounded-xl overflow-hidden">
-          <MapViewer
-            latitude={'42.87498588557094'}
-            longitude={'74.52659904956819'}
-            address={
-              '395, проспект Дэн Сяопина, Газ городок, Первомайский район, город Бишкек, 720027, Киргизия 002'
-            }
-            height={600}
-          />
-        </div>
-        {/*)}*/}
+        {currentContact?.lat && currentContact?.lng && (
+          <div className="flex-1 border rounded-xl overflow-hidden">
+            <MapViewer
+              latitude={currentContact?.lat}
+              longitude={currentContact?.lng}
+              address={currentContact?.address_text}
+              height={600}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -19,9 +19,9 @@ const Sidebar = () => {
       </div>
 
       <nav className="mt-4 pt-4 text-lg flex flex-col gap-1 px-2 bg-white shadow-md rounded-t-xl flex-1">
-        <Link href="/admin/brands" className={getNavClass(path.startsWith('/admin/brands'))}>
-          Бренды
-          <Tag size={20} />
+        <Link href="/admin/items" className={getNavClass(path.startsWith('/admin/items'))}>
+          Товары
+          <ShoppingBasket size={20} />
         </Link>
         <Link
           href="/admin/categories"
@@ -30,9 +30,9 @@ const Sidebar = () => {
           Категории
           <ChartBarStacked size={20} />
         </Link>
-        <Link href="/admin/items" className={getNavClass(path.startsWith('/admin/items'))}>
-          Товары
-          <ShoppingBasket size={20} />
+        <Link href="/admin/brands" className={getNavClass(path.startsWith('/admin/brands'))}>
+          Бренды
+          <Tag size={20} />
         </Link>
         <Link href="/admin/contacts" className={getNavClass(path.startsWith('/admin/contacts'))}>
           Контакты
