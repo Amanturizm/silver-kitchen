@@ -67,7 +67,10 @@ const Searcher = () => {
   const isVisible = isOpen && searchQuery;
 
   return (
-    <div ref={wrapperRef} className="relative flex flex-col gap-2 mt-12 w-full max-w-[700px]">
+    <div
+      ref={wrapperRef}
+      className="relative flex flex-col gap-2 w-full max-w-[600px] min-[1800px]:max-w-[700px]"
+    >
       <form className="flex items-center gap-4" onSubmit={handleSubmit}>
         <div
           onClick={() => inputValue && setIsOpen(true)}
@@ -76,6 +79,7 @@ const Searcher = () => {
           <Image src={searchIcon} alt="search" width={18} height={18} />
           <input
             type="text"
+            name="search"
             placeholder="Поиск"
             value={inputValue}
             onChange={handleChange}

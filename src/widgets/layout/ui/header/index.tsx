@@ -48,7 +48,7 @@ const Header = () => {
           </Link>
         </nav>
 
-        <div className="absolute right-[0] min-[1450px]:right-[4vw] min-[1800px]:right-[6vw] top-[6px] min-[1450px]:top-[1vw] flex items-center gap-6 min-[2000px]:gap-12 font-sans font-bold text-md min-[2000px]:text-lg">
+        <div className="absolute right-[0] min-[1450px]:right-[4vw] min-[1800px]:right-[6vw] top-[6px] min-[1450px]:top-[1vw] max-w-[30%] flex items-center gap-6 min-[2000px]:gap-12 font-sans font-bold text-md min-[2000px]:text-lg">
           {contact && (
             <>
               <div className="flex items-center gap-2 min-[1800px]:gap-4">
@@ -96,8 +96,8 @@ const Header = () => {
         </div>
       </div>
 
-      <div className="w-full h-full flex flex-col items-center mt-24 min-[1400px]:mt-32 min-[1800px]:mt-44 max-w-2/4 mx-auto">
-        <h1 className="text-white text-center text-4xl min-[1800px]:text-5xl min-[2200px]:text-6xl">
+      <div className="w-full h-full absolute top-1/2 -translate-1/2 left-1/2 flex flex-col items-center justify-center gap-8 min-w-[2000px]:gap-12 max-w-2/4 mx-auto">
+        <h1 className="text-white text-center text-3xl min-[1400px]:text-4xl min-[1800px]:text-5xl min-[2200px]:text-6xl">
           ПРОФЕССИОНАЛЬНОЕ КУХОННОЕ ОБОРУДОВАНИЕ
         </h1>
 

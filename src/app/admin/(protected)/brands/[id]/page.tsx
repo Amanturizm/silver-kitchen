@@ -38,6 +38,7 @@ const Page = () => {
                 title: 'Изображение',
                 value: (d) => (
                   <div className="shadow-[0_0_10px_0_rgba(34,60,80,0.16)] border border-slate-200 rounded-lg overflow-hidden">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={`${BASE_URL}/uploads/${d.img}`}
                       className="w-full h-60 object-contain rounded"

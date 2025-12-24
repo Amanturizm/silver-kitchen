@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import icon1 from '@/shared/assets/icons/advantage-01.svg';
 import icon2 from '@/shared/assets/icons/advantage-02.svg';
 import icon3 from '@/shared/assets/icons/advantage-03.svg';
@@ -38,7 +37,8 @@ const Advantages = () => {
                   'linear-gradient(255.52deg, rgba(80, 86, 98, 0.86) 2.38%, rgba(183, 188, 200, 0.86) 63.37%, rgba(80, 86, 98, 0.86) 99.22%)',
               }}
             >
-              <Image src={item.icon} alt={`icon-${idx}`} width={24} height={24} />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={item.icon.src} alt={`icon-${idx}`} width={24} height={24} />
             </div>
 
             <p className="text-xl font-medium text-[#090909]">{item.text}</p>

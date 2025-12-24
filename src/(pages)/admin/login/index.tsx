@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
-import { useLoginMutation, useMeQuery } from '@/features/auth/authApiSlice';
+import { useLoginMutation } from '@/features/auth/authApiSlice';
 import { LoginRequest } from '@/features/auth/types';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { InputField } from '@/widgets/ui/InputField';
 
 const LoginPage = () => {
@@ -16,13 +16,6 @@ const LoginPage = () => {
   });
 
   const [login] = useLoginMutation();
-  const { isSuccess } = useMeQuery();
-
-  useEffect(() => {
-    if (isSuccess) {
-      redirect('/admin/items');
-    }
-  }, [isSuccess]);
 
   const onSubmit = async (values: LoginRequest) => {
     try {

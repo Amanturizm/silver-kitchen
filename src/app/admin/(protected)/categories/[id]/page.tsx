@@ -44,6 +44,7 @@ const Page = () => {
                   key: 'image',
                   title: 'Изображение',
                   value: (d) => (
+                    // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={`${BASE_URL}/uploads/${d.image}`}
                       className="w-full h-60 object-contain"
