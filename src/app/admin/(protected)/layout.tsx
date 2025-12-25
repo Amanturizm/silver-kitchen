@@ -17,6 +17,7 @@ export default async function ProtectedAdminLayout({ children }: { children: Rea
   const res = await fetch(`${baseUrl}/api/auth/me`, {
     method: 'GET',
     cache: 'no-store',
+    credentials: 'include',
   });
 
   if (!res.ok) return redirect('/admin/login');
