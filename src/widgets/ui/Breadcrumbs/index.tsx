@@ -24,7 +24,7 @@ export const Breadcrumbs = ({
   const router = useRouter();
 
   return (
-    <div className="flex items-center gap-2 text-[16px]">
+    <div className="flex flex-wrap items-center gap-2 text-[16px]">
       <button
         className="text-gray-600 cursor-pointer hover:underline"
         onClick={() => router.push(startPath)}

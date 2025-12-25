@@ -26,7 +26,7 @@ const ProductDetail = () => {
   const categoriesChain = product?.category_id && findPath(categories, product.category_id);
 
   return (
-    <div className="py-16">
+    <div className="max-[992px]:py-6 py-16">
       <div className="mx-auto w-full">
         {categoriesChain && (
           <Breadcrumbs
