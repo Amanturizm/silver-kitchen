@@ -19,7 +19,7 @@ const ItemCard = ({ item }: ItemCardProps) => {
   return (
     <div
       onClick={handleClick}
-      className="bg-white rounded-[16px] p-4 flex flex-col justify-between gap-2 w-full max-w-[400px] cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.15)] transition-shadow"
+      className="bg-white rounded-[16px] p-4 flex flex-col justify-between gap-2 w-full max-[642px]:max-w-full max-w-[400px] cursor-pointer hover:shadow-[0_0_10px_rgba(0,0,0,0.15)] transition-shadow"
     >
       <div>
         <div className="relative w-full">

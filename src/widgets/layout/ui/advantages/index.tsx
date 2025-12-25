@@ -17,18 +17,21 @@ const advantages = [
 
 const Advantages = () => {
   return (
-    <div className="container px-8 pb-32 mt-20">
+    <div className="container px-0 lg:px-8 pb-32 mt-30 min-[678px]:mt-20">
       <h1 className="uppercase text-2xl font-medium mb-8">Наши преимущества</h1>
 
-      <div className="grid grid-cols-3">
+      <div className="grid grid-cols-1 lg:grid-cols-3">
         {advantages.map((item, idx) => (
           <div
             key={idx}
-            className={`
+            className="
               flex items-center gap-6 py-4 px-4
-              ${idx % 3 !== 2 ? 'border-r border-gray-300' : ''} 
-              ${idx < 3 ? 'border-b border-gray-300' : ''}
-            `}
+              border-b border-gray-300
+
+              lg:border-r
+              lg:[&:nth-child(3n)]:border-r-0
+              lg:[&:nth-child(n+4)]:border-b-0
+            "
           >
             <div
               className="min-w-[66px] min-h-[66px] flex items-center justify-center rounded-full"
@@ -38,10 +41,10 @@ const Advantages = () => {
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={item.icon.src} alt={`icon-${idx}`} width={24} height={24} />
+              <img src={item.icon.src} alt="" width={24} height={24} className="w-auto h-auto" />
             </div>
 
-            <p className="text-xl font-medium text-[#090909]">{item.text}</p>
+            <p className="text-xl font-medium text-[#090909] leading-5">{item.text}</p>
           </div>
         ))}
       </div>

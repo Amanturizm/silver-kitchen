@@ -45,8 +45,9 @@ const Categories = () => {
               backgroundImage: categories?.length
                 ? `url(${BASE_URL}/uploads/${category.image})`
                 : `url(${category.image})`,
+              overflow: isOpen ? 'visible' : 'hidden',
             }}
-            className={`relative flex-1 min-w-[260px] min-[1800px]:min-w-[220px] max-[1700px]:w-full bg-no-repeat bg-cover bg-top-left rounded-[${isOpen ? '0' : '20px'}] h-48 max-[2000px]:px-4 px-6 max-[2000px]:py-4 py-6 max-[2000px]:pt-4 pt-8 text-white overflow-${isOpen ? 'visible' : 'hidden'} cursor-pointer`}
+            className={`relative flex-1 min-w-[260px] min-[1800px]:min-w-[220px] max-[1700px]:w-full bg-no-repeat bg-cover bg-top-left rounded-[${isOpen ? '0' : '20px'}] h-48 max-[2000px]:px-4 px-6 max-[2000px]:py-4 py-6 max-[2000px]:pt-4 pt-8 text-white cursor-pointer`}
             onClick={() => {
               router.push(`/products?categoryId=${category.id}`, { scroll: false });
               scrollToMain();
@@ -70,7 +71,7 @@ const Categories = () => {
 
               {isOpen && category.children?.length > 0 && (
                 <div
-                  className="absolute top-full left-0 mt-2 py-4 bg-[#215573] rounded-[12px] shadow-lg z-50 w-full animate-fade-down animate-duration-200"
+                  className="absolute top-full left-0 mt-2 py-4 bg-[#215573] rounded-[12px] shadow-lg z-40 w-full animate-fade-down animate-duration-200"
                   ref={containerRef}
                 >
                   {category.children.map((child, index) => (

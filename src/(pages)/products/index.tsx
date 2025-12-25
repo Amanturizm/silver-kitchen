@@ -27,6 +27,7 @@ const ProductsPage = () => {
     brandId: searchParams.get('brandId') ? Number(searchParams.get('brandId')) : null,
     minPrice: searchParams.get('minPrice') ? Number(searchParams.get('minPrice')) : null,
     maxPrice: searchParams.get('maxPrice') ? Number(searchParams.get('maxPrice')) : null,
+    limit: 8,
     sortDirection: searchParams.get('sortDirection') || null,
     page: searchParams.get('page') ? Number(searchParams.get('page')) : 1,
   });
@@ -104,13 +105,13 @@ const ProductsPage = () => {
 
   return (
     <div className="py-16">
-      <div className="mt-14 flex items-start">
-        <div className="w-1/3 min-[1500px]:w-1/5">
-          <div className="min-w-[300px]">
+      <div className="lg:mt-14 flex items-start flex-col lg:flex-row">
+        <div className="w-full lg:w-1/3 min-[1500px]:w-1/5 flex max-[600px]:flex-col items-start gap-4 lg:block">
+          <div className="w-full lg:min-w-[300px]">
             <CategoryMenu />
           </div>
 
-          <div className="mt-8 space-y-2">
+          <div className="lg:mt-8 space-y-2 w-full">
             <Select
               label="Бренд"
               placeholder=""
@@ -161,9 +162,9 @@ const ProductsPage = () => {
           </div>
         </div>
 
-        <div className="px-8 w-full">
+        <div className="max-lg:mt-6 px-0 md:px-8 w-full">
           <div
-            className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 [@media(min-width:2300px)]:grid-cols-5 gap-6"
+            className="grid w-full grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 [@media(min-width:1600px)]:grid-cols-4 [@media(min-width:2300px)]:grid-cols-5 gap-6"
             style={{ height: '100%' }}
           >
             {isLoading ? (
@@ -177,7 +178,7 @@ const ProductsPage = () => {
           </div>
 
           {itemsResponse?.data.length ? (
-            <div className="flex justify-between items-center text-sm text-gray-600 font-sans mt-4">
+            <div className="flex justify-between items-center text-sm text-gray-600 font-sans mt-8">
               <Pagination
                 page={itemsResponse.page}
                 totalPages={itemsResponse.totalPages}

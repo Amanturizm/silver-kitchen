@@ -9,7 +9,7 @@ const Page = async () => {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('access_token')?.value;
 
-  if (accessToken) redirect('/admin/items');
+  if (accessToken) return redirect('/admin/items');
 
   return <LoginPage />;
 };

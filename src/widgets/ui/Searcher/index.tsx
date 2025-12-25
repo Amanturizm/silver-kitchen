@@ -1,6 +1,7 @@
 'use client';
 
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import searchIcon from '@/shared/assets/icons/search.png';
 import { useGlobalSearchQuery } from '@/features/main/mainApiSlice';
@@ -13,15 +14,37 @@ const Searcher = () => {
   const [inputValue, setInputValue] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLUListElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties | null>(null);
 
   const { data: globalSearchResponse } = useGlobalSearchQuery(searchQuery, {
     skip: !searchQuery,
   });
 
+  const { items, categories, brands } = globalSearchResponse ?? {};
+  const isVisible = isOpen && !!searchQuery;
+
+  const recalcPosition = () => {
+    if (!wrapperRef.current) return;
+
+    const rect = wrapperRef.current.getBoundingClientRect();
+
+    setDropdownStyle({
+      position: 'fixed',
+      top: rect.bottom + 8,
+      left: rect.left,
+      width: rect.width,
+      zIndex: 9999,
+    });
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+
     setInputValue(value);
     setIsOpen(!!value);
 
@@ -47,9 +70,14 @@ const Searcher = () => {
   };
 
   const handleClickOutside = (e: MouseEvent) => {
-    if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
-      setIsOpen(false);
+    if (
+      wrapperRef.current?.contains(e.target as Node) ||
+      dropdownRef.current?.contains(e.target as Node)
+    ) {
+      return;
     }
+
+    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -62,9 +90,20 @@ const Searcher = () => {
     };
   }, []);
 
-  const { items, categories, brands } = globalSearchResponse ?? {};
+  useEffect(() => {
+    if (!isVisible) return;
+    recalcPosition();
+  }, [isVisible]);
 
-  const isVisible = isOpen && searchQuery;
+  useEffect(() => {
+    window.addEventListener('resize', recalcPosition);
+    window.addEventListener('scroll', recalcPosition, true);
+
+    return () => {
+      window.removeEventListener('resize', recalcPosition);
+      window.removeEventListener('scroll', recalcPosition, true);
+    };
+  }, []);
 
   return (
     <div
@@ -74,7 +113,7 @@ const Searcher = () => {
       <form className="flex items-center gap-4" onSubmit={handleSubmit}>
         <div
           onClick={() => inputValue && setIsOpen(true)}
-          className="flex items-center w-full h-[44px] min-[1800px]:h-[48px] bg-white rounded-[35px] px-5 shadow"
+          className="flex items-center w-full h-[34px] min-[768px]:h-[40px] min-[1200px]:h-[44px] min-[1800px]:h-[48px] bg-white rounded-[35px] px-3 min-[768px]:px-5 shadow"
         >
           <Image src={searchIcon} alt="search" width={18} height={18} />
           <input
@@ -83,43 +122,53 @@ const Searcher = () => {
             placeholder="Поиск"
             value={inputValue}
             onChange={handleChange}
-            className="w-full h-full bg-transparent outline-none px-3 text-lg text-gray-700 placeholder:text-gray-400"
+            className="w-full h-full bg-transparent outline-none px-3 text-md min-[768px]:text-lg text-gray-700 placeholder:text-gray-400"
           />
         </div>
 
         <button
           type="submit"
-          className="h-[44px] min-[1800px]:h-[48px] px-6 min-[1800px]:px-7 bg-red-600 text-white text-md min-[1800px]:text-lg font-medium rounded-[16px] min-[1800px]:rounded-[20px] hover:bg-red-700 transition cursor-pointer"
+          className="h-[40px] min-[1200px]:h-[44px] min-[1800px]:h-[48px] px-6 min-[1800px]:px-7 bg-red-600 text-white text-md min-[1800px]:text-lg font-medium rounded-[16px] min-[1800px]:rounded-[20px] hover:bg-red-700 transition cursor-pointer max-[992px]:hidden"
         >
           Найти
         </button>
       </form>
 
-      {isVisible && (
-        <ul className="absolute top-full left-0 right-0 w-full bg-white rounded-[12px] shadow mt-2 max-h-60 overflow-y-auto z-50">
-          {items?.map((item) => (
-            <SearchItem
-              key={item.id}
-              to={`/products?${buildQueryString({ categoryId: item.category_id, brandId: item.brand_id })}`}
-            >
-              {item.name}
-              {item.price ? ` — ${item.price} ⃀` : ''}
-            </SearchItem>
-          ))}
+      {isVisible &&
+        dropdownStyle &&
+        createPortal(
+          <ul
+            ref={dropdownRef}
+            style={dropdownStyle}
+            className="bg-white rounded-[12px] shadow max-h-60 overflow-y-auto"
+          >
+            {items?.map((item) => (
+              <SearchItem
+                key={item.id}
+                to={`/products?${buildQueryString({
+                  categoryId: item.category_id,
+                  brandId: item.brand_id,
+                })}`}
+              >
+                {item.name}
+                {item.price ? ` — ${item.price} ⃀` : ''}
+              </SearchItem>
+            ))}
 
-          {categories?.map((item) => (
-            <SearchItem key={item.id} to={`/products?categoryId=${item.id}`}>
-              {item.name}
-            </SearchItem>
-          ))}
+            {categories?.map((item) => (
+              <SearchItem key={item.id} to={`/products?categoryId=${item.id}`}>
+                {item.name}
+              </SearchItem>
+            ))}
 
-          {brands?.map((item) => (
-            <SearchItem key={item.id} to={`/products?brandId=${item.id}`}>
-              {item.name}
-            </SearchItem>
-          ))}
-        </ul>
-      )}
+            {brands?.map((item) => (
+              <SearchItem key={item.id} to={`/products?brandId=${item.id}`}>
+                {item.name}
+              </SearchItem>
+            ))}
+          </ul>,
+          document.body,
+        )}
     </div>
   );
 };

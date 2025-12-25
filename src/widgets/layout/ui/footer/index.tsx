@@ -21,7 +21,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="px-16 bg-[#215573] text-[#DEDEDE] py-20 flex gap-10 justify-between flex-wrap">
+    <footer className="px-4 min-[768px]:px-16 bg-[#215573] text-[#DEDEDE] py-20 flex gap-10 justify-between flex-wrap">
       <div>
         <Image
           src={logoFooterImg}
@@ -37,13 +37,13 @@ const Footer = () => {
             Для получении консультации вы можете оставить свои контакты
           </p>
 
-          <div className="mt-6 flex items-center gap-4">
+          <div className="mt-6 flex max-[400px]:flex-col items-center gap-4">
             <input
               type="text"
               name="contact"
-              className="w-[400px] h-[66px] rounded-[20px] px-5 shadow bg-white outline-none text-lg text-gray-700 placeholder:text-gray-400"
+              className="w-full min-[768px]:w-[400px] h-[66px] rounded-[20px] px-5 shadow bg-white outline-none text-lg text-gray-700 placeholder:text-gray-400"
             />
-            <button className="h-[66px] px-7 bg-red-600 text-white text-lg font-medium rounded-[20px] hover:bg-red-700 transition">
+            <button className="h-[66px] max-[400px]:h-[55px] max-[400px]:w-full px-7 bg-red-600 text-white text-lg font-medium rounded-[20px] hover:bg-red-700 transition">
               Отправить
             </button>
           </div>

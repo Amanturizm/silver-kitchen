@@ -28,16 +28,18 @@ const ContactsPage = () => {
 
   return (
     <div className={`py-12`}>
-      <h1 className="uppercase text-2xl font-medium px-8">Наши филиалы</h1>
+      <h1 className="uppercase text-2xl font-medium max-[500px]:px-0 max-[768px]:px-4 px-8">
+        Наши филиалы
+      </h1>
 
-      <div className="flex gap-12 justify-between px-8 mt-12">
+      <div className="flex max-[800px]:flex-col gap-12 justify-between max-[500px]:px-0 max-[768px]:px-4 px-8 mt-12">
         <div className="py-4 h-min bg-[#215573] rounded-[12px] shadow-lg text-white">
           {contacts?.map((contact) => (
             <div
               key={contact.id}
               onClick={() => setCurrentContact(contact)}
               className={`
-                px-4 py-1.5 cursor-pointer min-w-[400px]
+                px-4 py-1.5 cursor-pointer max-[768px]:min-w-auto min-w-[400px]
                 flex justify-between items-center rounded-[4px] mb-0.5
                 ${currentContact?.city === contact.city ? 'bg-[#347EA8]' : 'bg-[#2e5f7b]'}
                 hover:bg-[#347EA8]

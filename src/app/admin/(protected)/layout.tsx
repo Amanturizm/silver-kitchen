@@ -1,4 +1,4 @@
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { AppLayoutAdmin } from '@/widgets/layout-admin';
 
@@ -6,17 +6,20 @@ export default async function ProtectedAdminLayout({ children }: { children: Rea
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('access_token')?.value;
 
-  if (!accessToken) redirect('/admin/login');
+  if (!accessToken) return redirect('/admin/login');
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`, {
+  const h = await headers();
+  const protocol = h.get('x-forwarded-proto') ?? 'http';
+  const host = h.get('host');
+
+  const baseUrl = `${protocol}://${host}`;
+
+  const res = await fetch(`${baseUrl}/api/auth/me`, {
     method: 'GET',
-    headers: {
-      cookie: `access_token=${accessToken}`,
-    },
     cache: 'no-store',
   });
 
-  if (!res.ok) redirect('/admin/login');
+  if (!res.ok) return redirect('/admin/login');
 
   return <AppLayoutAdmin>{children}</AppLayoutAdmin>;
 }

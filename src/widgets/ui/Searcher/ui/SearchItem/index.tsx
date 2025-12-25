@@ -11,7 +11,7 @@ const SearchItem: React.FC<Props> = ({ to, children }) => {
 
   return (
     <li
-      className="px-4 py-2 hover:bg-gray-100 cursor-pointer overflow-hidden whitespace-nowrap text-ellipsis"
+      className="px-4 max-[992px]:px-3 py-2 max-[992px]:py-1.5 hover:bg-gray-100 cursor-pointer overflow-hidden whitespace-nowrap text-ellipsis max-[992px]:text-sm"
       onClick={() => {
         router.push(to, { scroll: false });
 
