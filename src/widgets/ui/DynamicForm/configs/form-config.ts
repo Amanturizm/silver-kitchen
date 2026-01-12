@@ -21,6 +21,13 @@ export const createSchema = (yupType: any) => (required?: boolean, label?: strin
 export const typeMap: Record<FieldType, (required?: boolean, label?: string) => yup.Schema<any>> = {
   text: createSchema(yup.string),
   password: createSchema(yup.string),
+  textEditor: (required?: boolean, label?: string) =>
+    required
+      ? yup.string().test('not-empty', `${label} обязательное поле`, (v) => {
+          if (!v) return false;
+          return v.replace(/<[^>]+>/g, '').trim().length > 0;
+        })
+      : yup.string().nullable(),
   textarea: createSchema(yup.string),
   number: createSchema(yup.number),
   select: createSchema(yup.mixed),

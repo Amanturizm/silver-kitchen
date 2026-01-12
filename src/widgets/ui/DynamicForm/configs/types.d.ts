@@ -14,6 +14,7 @@ export type FieldType =
   | 'text'
   | 'password'
   | 'textarea'
+  | 'textEditor'
   | 'number'
   | 'select'
   | 'file'

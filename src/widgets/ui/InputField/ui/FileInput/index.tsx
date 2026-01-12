@@ -13,7 +13,6 @@ interface Props {
 
 export const FileInput = ({ value = [], onChange, label, multiple, disabled, error }: Props) => {
   const files = value.filter((f): f is File => f instanceof File || typeof f === 'string');
-  console.log(files);
 
   const baseInput =
     'w-full rounded-md bg-white px-3 py-2 text-sm outline-none border border-gray-300 focus:border-blue-500 disabled:bg-gray-100';

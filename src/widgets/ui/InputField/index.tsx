@@ -9,6 +9,7 @@ import { NumberInput } from '@/widgets/ui/InputField/ui/NumberInput';
 import { Textarea } from '@/widgets/ui/InputField/ui/Textarea';
 import { PasswordInput } from '@/widgets/ui/InputField/ui/PasswordInput';
 import { FileInput } from '@/widgets/ui/InputField/ui/FileInput';
+import { TextEditor } from '@/widgets/ui/InputField/ui/TextEditor';
 
 const MapInput = dynamic(
   () => import('@/widgets/ui/InputField/ui/MapInput').then((mod) => mod.MapInput),
@@ -72,6 +73,8 @@ export const InputField = ({
         return <NumberInput {...commonProps} />;
       case 'textarea':
         return <Textarea {...commonProps} />;
+      case 'textEditor':
+        return <TextEditor {...commonProps} />;
       case 'password':
         return <PasswordInput {...commonProps} />;
       case 'file':

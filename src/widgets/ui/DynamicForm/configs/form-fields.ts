@@ -34,7 +34,7 @@ const formFields: Record<string, FieldDef[]> = {
     ['name', 'Название', true],
     ['price', 'Цена', true, 'number'],
     ['shortDesc', 'Краткое описание', false],
-    ['desc', 'Описание', true, 'textarea'],
+    ['desc', 'Описание', true, 'textEditor'],
     ['categoryId', 'Категория', false, 'select', 12, true],
     ['brandId', 'Бренд', false, 'select'],
     ['images', 'Фото', true, 'files'],

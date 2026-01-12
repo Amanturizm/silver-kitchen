@@ -41,7 +41,7 @@ const Page = () => {
 
   const fieldsWithOptions = useDynamicChainSelect(
     fieldsWithBrandsOptions || [],
-    path.filter((cat) => cat.id !== 0),
+    path?.filter((cat) => cat.id !== 0),
     'categoryId',
     categories || [],
     (item?.category_id || '') + '',
