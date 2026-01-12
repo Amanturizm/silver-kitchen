@@ -113,11 +113,11 @@ export const DynamicForm = <T extends Record<string, any>>({
         ))}
       </div>
 
-      <div className="flex justify-end gap-2">
+      <div className="flex flex-col sm:flex-row justify-end gap-2">
         <button
           type="submit"
           disabled={loading}
-          className="mt-4 rounded-md bg-green-600 text-white py-2 px-6 hover:bg-green-700 transition cursor-pointer"
+          className="mt-4 w-full sm:w-auto rounded-md bg-green-600 text-white py-2 px-6 hover:bg-green-700 transition cursor-pointer"
         >
           {loading
             ? isEdit

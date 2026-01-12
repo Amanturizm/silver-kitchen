@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'http://10.111.70.155:8800/api/:path*',
+        destination: process.env.NEXT_PUBLIC_API_URL + '/api/:path*',
       },
     ];
   },

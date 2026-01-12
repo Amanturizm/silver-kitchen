@@ -45,9 +45,12 @@ export const DynamicDetailView = <T,>({ data, config }: DynamicDetailViewProps<T
         }
 
         return (
-          <div key={String(col.key)} className="flex gap-2 py-1 items-start">
-            <span className="font-medium w-40 shrink-0">{col.title}:</span>
-            <span className="min-w-0">{value}</span>
+          <div
+            key={String(col.key)}
+            className="flex flex-col sm:flex-row gap-1 sm:gap-2 py-1 items-start"
+          >
+            <span className="font-medium w-full sm:w-40 shrink-0">{col.title}:</span>
+            <span className="min-w-0 wrap-break-word">{value}</span>
           </div>
         );
       })}

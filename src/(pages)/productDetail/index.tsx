@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useGetCategoriesQuery } from '@/features/categories/categoriesApiSlice';
 import { useGetItemQuery } from '@/features/items/itemsApiSlice';
 import { findPath, scrollToMain } from '@/shared/constants';
-import { Loading, NotFound } from '@/widgets/ui/Message';
 import { Breadcrumbs } from '@/widgets/ui/Breadcrumbs';
-import { useGetCategoriesQuery } from '@/features/categories/categoriesApiSlice';
 import ImagesGallary from '@/widgets/ui/ImagesGallary';
+import { Loading, NotFound } from '@/widgets/ui/Message';
+import { useParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 const ProductDetail = () => {
   const params = useParams();
@@ -55,7 +55,12 @@ const ProductDetail = () => {
               {product.category_name && <div>Категория: {product.category_name}</div>}
             </div>
             {product.short_desc && <p className="mt-4 text-gray-700">{product.short_desc}</p>}
-            {product.desc && <p className="mt-2 text-gray-700">{product.desc}</p>}
+            {product.desc && (
+              <div
+                className="mt-2 text-gray-700 prose max-w-none"
+                dangerouslySetInnerHTML={{ __html: product.desc }}
+              />
+            )}
           </div>
         </div>
       </div>

@@ -65,8 +65,8 @@ const Contacts = () => {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex justify-between items-start">
-        <span className="text-2xl font-medium">Контакты</span>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <span className="text-xl sm:text-2xl font-medium">Контакты</span>
         <AddButton to="/admin/contacts/create" content="Создать контакт" />
       </div>
 
@@ -80,10 +80,10 @@ const Contacts = () => {
       />
 
       {totalPages > 1 && (
-        <div className="flex justify-between items-center text-sm text-gray-600 font-sans">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-sm text-gray-600 font-sans">
           <Pagination page={page} totalPages={totalPages} onChange={handlePageChange} />
 
-          <span>
+          <span className="text-xs sm:text-sm">
             Показано {startItem}–{endItem} из {data.length}
           </span>
         </div>

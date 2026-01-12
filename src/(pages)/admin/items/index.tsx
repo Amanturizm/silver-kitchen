@@ -63,8 +63,8 @@ const Items = () => {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex justify-between items-start">
-        <span className="text-2xl font-medium">Товары</span>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <span className="text-xl sm:text-2xl font-medium">Товары</span>
 
         <AddButton to="/admin/items/create" content="Создать товар" />
       </div>
@@ -79,10 +79,10 @@ const Items = () => {
       />
 
       {data && (
-        <div className="flex justify-between items-center text-sm text-gray-600 font-sans">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-sm text-gray-600 font-sans">
           <Pagination page={data.page} totalPages={data.totalPages} onChange={setPage} />
 
-          <span>
+          <span className="text-xs sm:text-sm">
             Показано {(data.page - 1) * data.limit + 1}–
             {Math.min(data.page * data.limit, data.totalItems)} из {data.totalItems}
           </span>

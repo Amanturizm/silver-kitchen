@@ -36,7 +36,7 @@ export const AppModal = ({
   return (
     <div
       className={`
-        fixed inset-0 z-[999] grid h-screen w-screen place-items-center
+        fixed inset-0 z-[999] flex items-center justify-center p-4
         bg-black/60 backdrop-blur-[1px]
         transition-opacity duration-200
         ${open ? 'opacity-100' : 'opacity-0 pointer-events-none'}
@@ -45,37 +45,37 @@ export const AppModal = ({
     >
       <div
         className={`
-          relative m-4 p-4 w-2/8 max-w-[40%]
+          relative w-full max-w-md sm:max-w-lg p-4 sm:p-6
           rounded-xl bg-white shadow-sm animate-duration-200
           ${open ? 'animate-jump-in' : 'animate-jump-out animate-duration-100 animate-ease-linear'}
         `}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex shrink-0 items-center pb-4 text-xl font-medium text-slate-800">
+        <div className="flex shrink-0 items-center pb-4 text-lg sm:text-xl font-medium text-slate-800">
           {title}
         </div>
 
-        <div className="relative border-t border-slate-200 py-4 leading-normal text-slate-600 font-light">
+        <div className="relative border-t border-slate-200 py-4 leading-normal text-sm sm:text-base text-slate-600 font-light">
           {children}
         </div>
 
-        <div className="flex shrink-0 flex-wrap items-center pt-2 justify-end">
+        <div className="flex flex-col-reverse sm:flex-row shrink-0 items-stretch sm:items-center pt-2 gap-2 sm:gap-0 sm:justify-end">
           <button
             onClick={onClose}
-            className="cursor-pointer rounded-lg border border-transparent py-2 px-4 text-md text-slate-600 hover:bg-slate-100"
+            className="w-full sm:w-auto cursor-pointer rounded-lg border border-transparent py-2 px-4 text-sm sm:text-md text-slate-600 hover:bg-slate-100"
           >
             {cancelText}
           </button>
 
           <button
             onClick={handleConfirm}
-            className="ml-2 flex items-center gap-2 rounded-lg bg-red-600 hover:bg-red-700 transition-all py-2 px-4 text-md text-white shadow-md hover:shadow-lg focus:bg-red-700 active:bg-red-700"
+            className="w-full sm:w-auto sm:ml-2 flex items-center justify-center gap-2 rounded-lg bg-red-600 hover:bg-red-700 transition-all py-2 px-4 text-sm sm:text-md text-white shadow-md hover:shadow-lg focus:bg-red-700 active:bg-red-700"
             disabled={loading}
             style={{
               cursor: loading ? 'not-allowed' : 'pointer',
             }}
           >
-            {loading ? <Loader className="animate-spin" size={24} /> : null}
+            {loading ? <Loader className="animate-spin" size={20} /> : null}
             {confirmText}
           </button>
         </div>

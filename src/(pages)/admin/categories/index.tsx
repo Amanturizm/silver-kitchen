@@ -54,24 +54,24 @@ const Categories = () => {
   };
 
   return (
-    <div className="flex flex-col">
-      <div className="flex justify-between items-start">
-        <span className="text-2xl font-medium">Категории</span>
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <span className="text-xl sm:text-2xl font-medium">Категории</span>
         <AddButton to="/admin/categories/create" content="Создать категорию" />
       </div>
 
       {breadcrumbChain.length > 0 && (
-        <div className="mt-4">
+        <div className="-mt-3">
           <Breadcrumbs startPath="/admin/categories" paramName="parentId" chain={breadcrumbChain} />
         </div>
       )}
 
       {categoriesOptions.length > 0 ? (
-        <div className="max-w-[300px] mt-4">
+        <div className="w-full sm:max-w-[300px] -mt-3">
           <TableFilter name="parentId" label="Категория" options={categoriesOptions} />
         </div>
       ) : (
-        <div className="h-4"></div>
+        <div className="h-0"></div>
       )}
 
       <DynamicTable
