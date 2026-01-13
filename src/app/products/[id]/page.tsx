@@ -37,9 +37,10 @@ async function getProduct(id: string): Promise<Item | null> {
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }): Promise<Metadata> {
-  const product = await getProduct(params.id);
+  const { id } = await params;
+  const product = await getProduct(id);
 
   if (!product) {
     return {
@@ -56,7 +57,7 @@ export async function generateMetadata({
 
   const imageUrl = product.images?.[0]?.path
     ? `${API_URL}${product.images[0].path}`
-    : `${BASE_URL}/og-image.jpg`;
+    : `${BASE_URL}/og-image.svg`;
 
   return {
     title,
