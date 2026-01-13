@@ -1,11 +1,11 @@
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { DynamicForm } from '@/widgets/ui/DynamicForm';
 import { FORM_PROPS } from '@/widgets/ui/DynamicForm/configs/form-fields';
 import { useParams, useRouter } from 'next/navigation';
 import { Loading, NotFound } from '@/widgets/ui/Message';
-import { useGetItemQuery, useUpdateItemMutation } from '@/features/items/itemsApiSlice';
+import { useGetItemQuery, useUpdateItemMutation, useDeleteItemImageMutation } from '@/features/items/itemsApiSlice';
 import { findPath } from '@/shared/constants';
 import { TreeNode } from '@/widgets/ui/DynamicForm/configs/types';
 import {
@@ -24,6 +24,8 @@ const Page = () => {
   const itemId = params.id as string;
 
   const [updateItem] = useUpdateItemMutation();
+  const [deleteItemImage] = useDeleteItemImageMutation();
+  const deletedImageIdsRef = useRef<number[]>([]);
 
   const { data: item, isLoading } = useGetItemQuery(itemId);
   const { data: categories } = useGetCategoriesQuery();
@@ -50,15 +52,28 @@ const Page = () => {
 
   if (!itemsForm) return null;
 
+  const handleDeleteImage = (imageId: number) => {
+    deletedImageIdsRef.current.push(imageId);
+  };
+
   const handleSubmit = async (data: typeof itemsForm.defaultValues) => {
     try {
+      if (deletedImageIdsRef.current.length > 0) {
+        await Promise.all(
+          deletedImageIdsRef.current.map((imageId) =>
+            deleteItemImage(imageId.toString()).unwrap()
+          )
+        );
+        deletedImageIdsRef.current = [];
+      }
+
       const finalCategoryId = extractFinalParentId(data, 'categoryId');
 
       const body = {
         id: itemId,
         categoryId: finalCategoryId,
         ...cleanupParentFields(data, 'categoryId'),
-      };
+      };      
 
       await updateItem(body as ItemRequest & { id: string }).unwrap();
       router.push('/admin/items');
@@ -88,7 +103,7 @@ const Page = () => {
     shortDesc: item.short_desc,
     desc: item.desc,
     brandId: item.brand_id + '',
-    images: item.images.map((img) => img.name),
+    images: item.images,
     ...chainDefaults,
   };
 
@@ -102,6 +117,7 @@ const Page = () => {
           defaultValues={defaultValues}
           schema={itemsForm.schema}
           onSubmit={handleSubmit}
+          onDeleteImage={handleDeleteImage}
           isEdit
         />
       </div>

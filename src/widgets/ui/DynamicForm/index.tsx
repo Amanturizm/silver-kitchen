@@ -15,6 +15,7 @@ interface DynamicFormProps<T extends Record<string, any>> {
   onSubmit: SubmitHandler<T>;
   formOpen?: boolean;
   isEdit?: boolean;
+  onDeleteImage?: (imageId: number) => void;
 }
 
 export const DynamicForm = <T extends Record<string, any>>({
@@ -24,6 +25,7 @@ export const DynamicForm = <T extends Record<string, any>>({
   onSubmit,
   formOpen = true,
   isEdit = false,
+  onDeleteImage,
 }: DynamicFormProps<T>) => {
   const { control, handleSubmit, reset, resetField } = useForm<T>({
     defaultValues: defaultValues as DefaultValues<T>,
@@ -96,6 +98,7 @@ export const DynamicForm = <T extends Record<string, any>>({
             type={f.type as any}
             options={f.options}
             multiple={f.type === 'files'}
+            onDeleteImage={onDeleteImage}
             onChange={(val) => {
               if (f.isDynamicChain && f.getNextOptions) {
                 updateDynamicChain({

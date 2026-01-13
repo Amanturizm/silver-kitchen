@@ -34,6 +34,7 @@ interface Props {
   multiple?: boolean;
   value?: string | number;
   onChange?: (value: any) => void;
+  onDeleteImage?: (imageId: number) => void;
 }
 
 export const InputField = ({
@@ -47,6 +48,7 @@ export const InputField = ({
   multiple,
   value,
   onChange,
+  onDeleteImage,
 }: Props) => {
   const renderComponent = (field?: any, fieldState?: any) => {
     const currentValue = field ? field.value : value;
@@ -64,6 +66,7 @@ export const InputField = ({
       error: fieldState?.error,
       multiple,
       options,
+      onDeleteImage,
     };
 
     switch (type) {
