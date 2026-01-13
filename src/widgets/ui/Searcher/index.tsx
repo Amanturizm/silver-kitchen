@@ -113,7 +113,7 @@ const Searcher = () => {
       <form className="flex items-center gap-4" onSubmit={handleSubmit}>
         <div
           onClick={() => inputValue && setIsOpen(true)}
-          className="flex items-center w-full h-[34px] min-[768px]:h-[40px] min-[1200px]:h-[44px] min-[1800px]:h-[48px] bg-white rounded-[35px] px-3 min-[768px]:px-5 shadow"
+          className="flex items-center w-full h-[34px] min-[768px]:h-10 min-[1200px]:h-11 min-[1800px]:h-12 bg-white rounded-[35px] px-3 min-[768px]:px-5 shadow"
         >
           <Image src={searchIcon} alt="search" width={18} height={18} />
           <input
@@ -128,7 +128,7 @@ const Searcher = () => {
 
         <button
           type="submit"
-          className="h-[40px] min-[1200px]:h-[44px] min-[1800px]:h-[48px] px-6 min-[1800px]:px-7 bg-red-600 text-white text-md min-[1800px]:text-lg font-medium rounded-[16px] min-[1800px]:rounded-[20px] hover:bg-red-700 transition cursor-pointer max-[992px]:hidden"
+          className="h-10 min-[1200px]:h-11 min-[1800px]:h-12 px-6 min-[1800px]:px-7 bg-red-600 text-white text-md min-[1800px]:text-lg font-medium rounded-2xl min-[1800px]:rounded-[20px] hover:bg-red-700 transition cursor-pointer max-[992px]:hidden"
         >
           Найти
         </button>
@@ -140,7 +140,7 @@ const Searcher = () => {
           <ul
             ref={dropdownRef}
             style={dropdownStyle}
-            className="bg-white rounded-[12px] shadow max-h-60 overflow-y-auto"
+            className="bg-white rounded-xl shadow max-h-60 overflow-y-auto"
           >
             {items?.map((item) => (
               <SearchItem
@@ -151,7 +151,7 @@ const Searcher = () => {
                 })}`}
               >
                 {item.name}
-                {item.price ? ` — ${item.price} ⃀` : ''}
+                {item.price ? ` — ${item.price} сом` : ''}
               </SearchItem>
             ))}
 

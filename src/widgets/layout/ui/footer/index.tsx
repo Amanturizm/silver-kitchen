@@ -74,7 +74,7 @@ const Footer = () => {
             <Image
               src={instagramIcon}
               alt="instagram-icon"
-              className="rounded-[6px] cursor-pointer"
+              className="rounded-md cursor-pointer"
               width={34}
               height={34}
             />
@@ -84,7 +84,7 @@ const Footer = () => {
             <Image
               src={lalafoIcon}
               alt="lalafo-icon"
-              className="rounded-[6px] cursor-pointer"
+              className="rounded-md cursor-pointer"
               width={34}
               height={34}
               unoptimized

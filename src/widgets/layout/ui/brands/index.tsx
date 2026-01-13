@@ -41,7 +41,7 @@ const Brands = () => {
       </div>
 
       {brands?.length && (
-        <div className="absolute right-0 top-[calc(100%+20px)] min-[678px]:top-1/2 -translate-y-1/2 bg-white rounded-[20px] py-[20px] max-[678px]:py-[30px] max-[678px]:mx-auto max-[678px]:max-w-[90%] w-[100%] min-[678px]:w-[60%] min-[992px]:w-[50%] min-[1600px]:w-[40%] h-[90%] min-[678px]:h-[70%] flex items-center gap-4">
+        <div className="absolute right-0 top-[calc(100%+20px)] min-[678px]:top-1/2 -translate-y-1/2 bg-white rounded-[20px] py-5 max-[678px]:py-[30px] max-[678px]:mx-auto max-[678px]:max-w-[90%] w-full min-[678px]:w-[60%] min-[992px]:w-[50%] min-[1600px]:w-[40%] h-[90%] min-[678px]:h-[70%] flex items-center gap-4">
           <button
             onClick={scrollPrev}
             className="w-10 h-10 border-2 border-[#9193A2] rounded-full flex items-center justify-center ml-6 shrink-0 cursor-pointer"

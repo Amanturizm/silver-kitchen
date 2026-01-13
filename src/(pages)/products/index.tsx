@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useGetItemsQuery } from '@/features/items/itemsApiSlice';
 import { ItemsFilter } from '@/features/items/types';
@@ -22,23 +22,25 @@ const ProductsPage = () => {
   const { data: brands } = useGetBrandsQuery();
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const getInitialFilter = (): ItemsFilter => ({
-    categoryId: searchParams.get('categoryId') ? Number(searchParams.get('categoryId')) : null,
-    brandId: searchParams.get('brandId') ? Number(searchParams.get('brandId')) : null,
-    minPrice: searchParams.get('minPrice') ? Number(searchParams.get('minPrice')) : null,
-    maxPrice: searchParams.get('maxPrice') ? Number(searchParams.get('maxPrice')) : null,
-    limit: 8,
-    sortDirection: searchParams.get('sortDirection') || null,
-    page: searchParams.get('page') ? Number(searchParams.get('page')) : 1,
-  });
+  const getInitialFilter = useCallback(
+    (): ItemsFilter => ({
+      categoryId: searchParams.get('categoryId') ? Number(searchParams.get('categoryId')) : null,
+      brandId: searchParams.get('brandId') ? Number(searchParams.get('brandId')) : null,
+      minPrice: searchParams.get('minPrice') ? Number(searchParams.get('minPrice')) : null,
+      maxPrice: searchParams.get('maxPrice') ? Number(searchParams.get('maxPrice')) : null,
+      limit: 8,
+      sortDirection: searchParams.get('sortDirection') || null,
+      page: searchParams.get('page') ? Number(searchParams.get('page')) : 1,
+    }),
+    [searchParams],
+  );
 
   const [filter, setFilter] = useState<ItemsFilter>(getInitialFilter);
   const [debouncedFilter, setDebouncedFilter] = useState<ItemsFilter>(getInitialFilter);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setFilter(getInitialFilter());
-  }, [searchParams]);
+  }, [getInitialFilter]);
 
   useEffect(() => {
     const handler = setTimeout(() => {

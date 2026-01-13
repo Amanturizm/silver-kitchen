@@ -35,4 +35,5 @@ export interface ContactRequest {
     lng: string;
   } | null;
   active?: string;
+  main?: 1 | 0
 }

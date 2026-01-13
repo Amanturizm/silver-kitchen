@@ -24,19 +24,19 @@ export const Breadcrumbs = ({
   const router = useRouter();
 
   return (
-    <div className="flex flex-wrap items-center gap-2 text-[16px]">
+    <div className="flex flex-wrap items-center gap-2 text-sm md:text-base">
       <button
-        className="text-gray-600 cursor-pointer hover:underline"
+        className="text-gray-600 cursor-pointer hover:underline truncate max-w-[120px] sm:max-w-none"
         onClick={() => router.push(startPath)}
       >
         {startPathTitle || 'Все'}
       </button>
 
       {chain.map((c) => (
-        <div key={c.id} className="flex items-center gap-2">
-          <span className="text-gray-400 cursor-default">{'>'}</span>
+        <div key={c.id} className="flex items-center gap-2 min-w-0">
+          <span className="text-gray-400 cursor-default shrink-0">{'>'}</span>
           <button
-            className="text-gray-600 cursor-pointer hover:underline"
+            className="text-gray-600 cursor-pointer hover:underline truncate max-w-[120px] sm:max-w-[200px] md:max-w-none"
             onClick={() => router.push(`${startPath}?${paramName}=${c.id}`)}
           >
             {c.name}
@@ -45,9 +45,11 @@ export const Breadcrumbs = ({
       ))}
 
       {endPathTitle && (
-        <div className="flex items-center gap-2">
-          <span className="text-gray-400 cursor-default">{'>'}</span>
-          <span className="text-gray-600">{endPathTitle}</span>
+        <div className="flex items-center gap-2 min-w-0">
+          <span className="text-gray-400 cursor-default shrink-0">{'>'}</span>
+          <span className="text-gray-600 truncate max-w-[150px] sm:max-w-[250px] md:max-w-none">
+            {endPathTitle}
+          </span>
         </div>
       )}
     </div>

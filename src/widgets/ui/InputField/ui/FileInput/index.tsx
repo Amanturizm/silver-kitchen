@@ -17,11 +17,19 @@ interface Props {
   error?: { message?: string };
 }
 
-export const FileInput = ({ value = [], onChange, onDeleteImage, label, multiple, disabled, error }: Props) => {  
-  const files = value.filter((f): f is File | string | AttachmentLike =>
-    f instanceof File || typeof f === 'string' || (typeof f === 'object' && f !== null)
+export const FileInput = ({
+  value = [],
+  onChange,
+  onDeleteImage,
+  label,
+  multiple,
+  disabled,
+  error,
+}: Props) => {
+  const files = value.filter(
+    (f): f is File | string | AttachmentLike =>
+      f instanceof File || typeof f === 'string' || (typeof f === 'object' && f !== null),
   );
-  console.log(value, files);
 
   const baseInput =
     'w-full rounded-md bg-white px-3 py-2 text-sm outline-none border border-gray-300 focus:border-blue-500 disabled:bg-gray-100';

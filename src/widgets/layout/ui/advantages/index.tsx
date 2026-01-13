@@ -29,8 +29,8 @@ const Advantages = () => {
               border-b border-gray-300
 
               lg:border-r
-              lg:[&:nth-child(3n)]:border-r-0
-              lg:[&:nth-child(n+4)]:border-b-0
+              lg:nth-[3n]:border-r-0
+              lg:nth-[n+4]:border-b-0
             "
           >
             <div

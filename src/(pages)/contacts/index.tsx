@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useGetContactsQuery } from '@/features/contacts/contactsApiSlice';
 import Image from 'next/image';
@@ -17,14 +17,7 @@ const MapViewer = dynamic(() => import('@/widgets/ui/MapViewer').then((mod) => m
 
 const ContactsPage = () => {
   const { data: contacts } = useGetContactsQuery({ main: 'false' });
-  const [currentContact, setCurrentContact] = useState<Contact | null>(null);
-
-  useEffect(() => {
-    if (contacts?.[0]) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setCurrentContact(contacts[0]);
-    }
-  }, [contacts]);
+  const [currentContact, setCurrentContact] = useState<Contact | null>(contacts?.[0] ?? null);
 
   return (
     <div className={`py-12`}>
@@ -33,14 +26,14 @@ const ContactsPage = () => {
       </h1>
 
       <div className="flex max-[800px]:flex-col gap-12 justify-between max-[500px]:px-0 max-[768px]:px-4 px-8 mt-12">
-        <div className="py-4 h-min bg-[#215573] rounded-[12px] shadow-lg text-white">
+        <div className="py-4 h-min bg-[#215573] rounded-xl shadow-lg text-white">
           {contacts?.map((contact) => (
             <div
               key={contact.id}
               onClick={() => setCurrentContact(contact)}
               className={`
                 px-4 py-1.5 cursor-pointer max-[768px]:min-w-auto min-w-[400px]
-                flex justify-between items-center rounded-[4px] mb-0.5
+                flex justify-between items-center rounded-sm mb-0.5
                 ${currentContact?.city === contact.city ? 'bg-[#347EA8]' : 'bg-[#2e5f7b]'}
                 hover:bg-[#347EA8]
               `}

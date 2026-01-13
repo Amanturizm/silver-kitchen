@@ -1,0 +1,5 @@
+<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" fill="white"/>
+  <circle cx="256" cy="256" r="170.66666666666666" fill="#1f2937"/>
+  <text x="256" y="266" font-family="Arial, sans-serif" font-size="128" font-weight="bold" fill="white" text-anchor="middle">SK</text>
+</svg>

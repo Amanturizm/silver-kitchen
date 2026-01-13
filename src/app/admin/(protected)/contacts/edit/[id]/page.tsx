@@ -29,6 +29,7 @@ const Page = () => {
         lat: data.address.lat,
         lng: data.address.lng,
         address: null,
+        main: contact?.main === 1 ? 1 : 0,
       };
 
       await updateContact(body as ContactRequest & { id: string }).unwrap();

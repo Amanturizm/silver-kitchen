@@ -5,7 +5,11 @@ import { DynamicForm } from '@/widgets/ui/DynamicForm';
 import { FORM_PROPS } from '@/widgets/ui/DynamicForm/configs/form-fields';
 import { useParams, useRouter } from 'next/navigation';
 import { Loading, NotFound } from '@/widgets/ui/Message';
-import { useGetItemQuery, useUpdateItemMutation, useDeleteItemImageMutation } from '@/features/items/itemsApiSlice';
+import {
+  useGetItemQuery,
+  useUpdateItemMutation,
+  useDeleteItemImageMutation,
+} from '@/features/items/itemsApiSlice';
 import { findPath } from '@/shared/constants';
 import { TreeNode } from '@/widgets/ui/DynamicForm/configs/types';
 import {
@@ -60,9 +64,7 @@ const Page = () => {
     try {
       if (deletedImageIdsRef.current.length > 0) {
         await Promise.all(
-          deletedImageIdsRef.current.map((imageId) =>
-            deleteItemImage(imageId.toString()).unwrap()
-          )
+          deletedImageIdsRef.current.map((imageId) => deleteItemImage(imageId.toString()).unwrap()),
         );
         deletedImageIdsRef.current = [];
       }
@@ -73,7 +75,7 @@ const Page = () => {
         id: itemId,
         categoryId: finalCategoryId,
         ...cleanupParentFields(data, 'categoryId'),
-      };      
+      };
 
       await updateItem(body as ItemRequest & { id: string }).unwrap();
       router.push('/admin/items');

@@ -52,6 +52,14 @@ const Page = () => {
                   key: 'desc',
                   title: 'Описание:',
                   variant: 'block',
+                  value: (d) =>
+                    d.desc ? (
+                      <div
+                        className="prose max-w-none"
+                        dangerouslySetInnerHTML={{ __html: d.desc }}
+                      />
+                    ) : null,
+                  emptyText: 'Нет описания',
                 },
 
                 {

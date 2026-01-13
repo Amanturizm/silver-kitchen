@@ -137,7 +137,7 @@ const DynamicTable = <T,>({ queryResult, config, deleteQuery }: Props<T>) => {
               const isOpen = openRow === rowKey;
 
               return (
-                <tr key={rowKey} className="h-[40px] border-t border-gray-300 font-sans">
+                <tr key={rowKey} className="h-10 border-t border-gray-300 font-sans">
                   {config.columns.map((col) => (
                     <td key={String(col.key)} className="px-2 sm:px-4 py-1 whitespace-nowrap">
                       {col.render ? col.render(row) : String((row as any)[col.key])}
@@ -167,7 +167,7 @@ const DynamicTable = <T,>({ queryResult, config, deleteQuery }: Props<T>) => {
                           className="bg-white rounded-md shadow-lg min-w-[190px] whitespace-nowrap overflow-hidden row-action-menu"
                         >
                           <button
-                            className="w-full text-left px-3 py-2 text-md hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
+                            className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
                             onClick={(e) => {
                               e.stopPropagation();
                               router.push(`/admin/${config.pageName}/${rowKey}`);
@@ -177,7 +177,7 @@ const DynamicTable = <T,>({ queryResult, config, deleteQuery }: Props<T>) => {
                             Подробный просмотр
                           </button>
                           <button
-                            className="w-full text-left px-3 py-2 text-md hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
+                            className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
                             onClick={(e) => {
                               e.stopPropagation();
                               router.push(`/admin/${config.pageName}/edit/${rowKey}`);
@@ -188,7 +188,7 @@ const DynamicTable = <T,>({ queryResult, config, deleteQuery }: Props<T>) => {
                           </button>
                           {deleteQuery && (
                             <button
-                              className="w-full text-left px-3 py-2 text-md hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
+                              className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 openModal(String(rowKey));
