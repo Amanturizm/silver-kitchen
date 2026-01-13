@@ -18,13 +18,6 @@ const ProductDetail = () => {
   const { data: product, isLoading } = useGetItemQuery(productId);
   const { data: categories } = useGetCategoriesQuery();
 
-  useEffect(() => {
-    scrollToMain();
-  }, [product]);
-
-  if (isLoading) return <Loading size={50} />;
-  if (!product) return <NotFound message="Товар не найден" size={50} />;
-
   const categoriesChain = product?.category_id && findPath(categories, product.category_id);
 
   const breadcrumbItems = useMemo(() => {
@@ -48,6 +41,13 @@ const ProductDetail = () => {
 
     return items;
   }, [categoriesChain, product]);
+
+  useEffect(() => {
+    scrollToMain();
+  }, [product]);
+
+  if (isLoading) return <Loading size={50} />;
+  if (!product) return <NotFound message="Товар не найден" size={50} />;
 
   return (
     <>
