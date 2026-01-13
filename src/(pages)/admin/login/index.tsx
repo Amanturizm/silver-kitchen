@@ -27,20 +27,19 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 py-6 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="w-full max-w-[400px]">
-        <div className="text-center mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+        <div className="text-center mb-4">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
             Silver Kitchen
           </h1>
-          <p className="text-sm sm:text-base text-gray-600">Панель администратора</p>
         </div>
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="rounded-2xl bg-white shadow-2xl px-4 py-6 sm:px-6 sm:py-8 flex flex-col space-y-1"
+          className="rounded-2xl bg-white shadow-2xl px-6 py-8 flex flex-col space-y-1"
         >
-          <h2 className="text-lg sm:text-xl font-semibold text-center mb-4 sm:mb-6">
+          <h2 className="text-xl font-semibold text-center mb-6">
             Авторизация
           </h2>
 
@@ -61,15 +60,11 @@ const LoginPage = () => {
 
           <button
             type="submit"
-            className="mt-6 sm:mt-8 rounded-lg bg-blue-600 text-white py-3 sm:py-2.5 text-sm sm:text-base font-medium hover:bg-blue-700 active:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors cursor-pointer touch-manipulation"
+            className="mt-2 rounded-lg bg-blue-600 text-white py-2 text-base font-medium hover:bg-blue-700 active:bg-blue-800 focus:outline-none transition-colors cursor-pointer"
           >
             Войти
           </button>
         </form>
-
-        <p className="mt-4 text-center text-xs sm:text-sm text-gray-500">
-          Защищенная зона. Только для авторизованных пользователей.
-        </p>
       </div>
     </div>
   );
