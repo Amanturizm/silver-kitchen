@@ -20,6 +20,17 @@ const Page = () => {
   const brandForm = FORM_PROPS.find((f) => f.entity === 'brands');
   if (!brandForm) return null;
 
+  const fieldsWithActive = brandForm.fields.toSpliced(-1, 0, {
+    name: 'active',
+    label: 'Статус',
+    type: 'select',
+    required: false,
+    options: [
+      { label: 'Активен', value: '1' },
+      { label: 'Неактивен', value: '0' },
+    ],
+  });
+
   const handleSubmit = async (data: typeof brandForm.defaultValues) => {
     try {
       const body = {
@@ -41,8 +52,9 @@ const Page = () => {
 
   const defaultValues = {
     name: brand.name,
-    desc: brand.description,
+    description: brand.description,
     image: [brand.img],
+    active: brand.active ? '1' : '0',
   };
 
   return (
@@ -51,7 +63,7 @@ const Page = () => {
 
       <div className="mt-4">
         <DynamicForm
-          fields={brandForm.fields}
+          fields={fieldsWithActive}
           defaultValues={defaultValues}
           schema={brandForm.schema}
           onSubmit={handleSubmit}

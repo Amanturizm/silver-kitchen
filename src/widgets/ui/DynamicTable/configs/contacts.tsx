@@ -14,7 +14,7 @@ export const contactsTableConfig: TableConfig<Contact> = {
     {
       key: 'address_text',
       title: 'Адрес',
-      render: (row) => row.address_text || '—',
+      render: (row) => row.address_text?.replace(/<[^>]+>/g, '') || '—',
     },
     {
       key: 'phone_number_1',

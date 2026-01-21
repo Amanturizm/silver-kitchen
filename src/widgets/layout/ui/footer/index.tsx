@@ -68,7 +68,9 @@ const Footer = () => {
       <ul className="text-xl flex flex-col gap-2">
         <li>{contact?.email}</li>
         <li>Адрес магазина:</li>
-        <li>{contact?.address_text}</li>
+        {contact?.address_text && (
+          <li dangerouslySetInnerHTML={{ __html: contact.address_text }} />
+        )}
         <li className="flex items-center gap-4 mt-2">
           <a href={contact?.instagram_link} target="_blank" rel="noopener noreferrer">
             <Image

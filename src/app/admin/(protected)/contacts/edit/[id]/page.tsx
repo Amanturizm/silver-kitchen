@@ -8,6 +8,7 @@ import { ContactRequest } from '@/features/contacts/types';
 import { useParams, useRouter } from 'next/navigation';
 import { Loading, NotFound } from '@/widgets/ui/Message';
 import { toast } from 'sonner';
+import * as yup from 'yup';
 
 const Page = () => {
   const router = useRouter();
@@ -22,12 +23,14 @@ const Page = () => {
 
   const handleSubmit = async (data: typeof contactForm.defaultValues) => {
     try {
+      const isAddressString = typeof data.address === 'string';
+
       const body = {
         ...data,
         id: contactId,
-        addressText: data.address.addressText,
-        lat: data.address.lat,
-        lng: data.address.lng,
+        addressText: isAddressString ? data.address : data.address.addressText,
+        lat: isAddressString ? null : data.address.lat,
+        lng: isAddressString ? null : data.address.lng,
         address: null,
         main: contact?.main === 1 ? 1 : 0,
       };
@@ -43,7 +46,9 @@ const Page = () => {
   if (isLoading) return <Loading />;
   if (!contact) return <NotFound message="Контакт не найден" />;
 
-  const defaultValues: ContactRequest = {
+  const isMainCity = contact?.city === 'Главная';
+
+  const defaultValues = {
     phoneNumber1: contact?.phone_number_1 || '',
     phoneNumber2: contact?.phone_number_2 || '',
     whatsappNumber: contact?.whatsapp_number || '',
@@ -54,16 +59,22 @@ const Page = () => {
     city: contact?.city || '',
     street: contact?.street || '',
     email: contact?.email || '',
-    address: {
-      addressText: contact?.address_text || '',
-      lat: contact?.lat || '',
-      lng: contact?.lng || '',
-    },
+    address: isMainCity
+      ? contact?.address_text || ''
+      : {
+          addressText: contact?.address_text || '',
+          lat: contact?.lat || '',
+          lng: contact?.lng || '',
+        },
 
     active: String(contact?.active || 0),
   };
 
-  const fieldsWithActiveSelect = contactForm.fields.toSpliced(contactForm.fields.length, 0, {
+  const fieldsWithAddressType = contactForm.fields.map((field) =>
+    field.name === 'address' && isMainCity ? { ...field, type: 'textEditor' as const } : field,
+  );
+
+  const fieldsWithActiveSelect = fieldsWithAddressType.toSpliced(fieldsWithAddressType.length, 0, {
     name: 'active',
     label: 'Статус',
     type: 'select',
@@ -74,6 +85,10 @@ const Page = () => {
     ],
   });
 
+  const schema = isMainCity
+    ? contactForm.schema.shape({ address: yup.string().nullable() })
+    : contactForm.schema;
+
   return (
     <>
       <span className="text-2xl font-medium">Редактирование контакта</span>
@@ -82,7 +97,7 @@ const Page = () => {
         <DynamicForm
           fields={fieldsWithActiveSelect}
           defaultValues={defaultValues}
-          schema={contactForm.schema}
+          schema={schema}
           onSubmit={handleSubmit}
           isEdit
         />
