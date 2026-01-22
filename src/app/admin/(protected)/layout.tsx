@@ -1,6 +1,6 @@
-import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';
 import { AppLayoutAdmin } from '@/widgets/layout-admin';
+import { cookies, headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 export default async function ProtectedAdminLayout({ children }: { children: React.ReactNode }) {
   const h = await headers();
@@ -22,7 +22,12 @@ export default async function ProtectedAdminLayout({ children }: { children: Rea
     cache: 'no-store',
   });
 
-  if (!res.ok) redirect('/admin/login');
+  if (!res.ok) {
+    if (res.status === 401) {
+      (await cookies()).delete('access_token');
+    }
+    redirect('/admin/login');
+  }
 
   return <AppLayoutAdmin>{children}</AppLayoutAdmin>;
 }
